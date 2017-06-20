@@ -67,12 +67,7 @@ public class Team6Cover  extends JPanel{
       static JPanel panel = new JPanel();
       static JPanel panel3 = new JPanel();
       static JPanel panel2 = new JPanel();
-      static JLayeredPane layeredPane; 
-      static Team6Ghost ghost; 
-      static JPanel layeredPanel = new JPanel();
-      static Thread thread = new Thread();
-      static JLabel map = new JLabel();
-      static JLabel myImage = new JLabel(new ImageIcon("src/Team4Images/Pac-Man-Ghost-PNG-Transparent-Image.png"));
+      
       
     public static String newDialog(){
            
@@ -126,8 +121,6 @@ public class Team6Cover  extends JPanel{
 
        double lon = 0.00; 
        double lat = 0.00;
-     //System.out.println(ci);
-      // String en = "https://api.darksky.net/forecast/4f02d91363f259f5ca95263c5c032dfc/";
       
        switch(ci){
            
@@ -195,7 +188,10 @@ public class Team6Cover  extends JPanel{
      double humidity = 0.00;
      double time = 0.00;
      int temperature = 0;
-      JLabel label, label2,label3, label4;
+     JLabel label, label2,label3, label4, map, myImage, layeredPanel;
+     JLayeredPane layeredPane;
+     Team6Ghost ghost;
+     Thread thread;
     public Team6Cover() {
 
         JLabel label1 = new JLabel(" Weather: ");
@@ -207,6 +203,21 @@ public class Team6Cover  extends JPanel{
         JLabel label4 = new JLabel("\n Visibility: ");
 
         JLabel label5 = new JLabel("\n dewPoint: ");
+        
+        JLabel map = new JLabel();
+        
+        Team6Ghost ghost = new Team6Ghost();; 
+        JPanel layeredPanel = new JPanel();
+        Thread thread = new Thread(ghost);
+ 
+      //static JLabel map = new JLabel();
+        JLabel myImage = new JLabel(new ImageIcon("Team6Images/Pac-Man-Ghost-PNG-Transparent-Image.png"));
+        
+        JLayeredPane layeredPane = new JLayeredPane();
+        
+        
+        
+        
         
         panel = new JPanel();
         // panel.setBackground(Color.RED);
@@ -256,16 +267,9 @@ public class Team6Cover  extends JPanel{
 				visibility = jon.getJSONObject("currently").getDouble("visibility");
 				System.out.println(visibility);
 				dewPoint = jon.getJSONObject("currently").getDouble("dewPoint");
-			       // JLabel label = new JLabel(" Weather: " + weather);
-                               
-                                //JLabel map = new JLabel( new ImageIcon(( new ImageIcon("image.jpg")).getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH)));
-                 
-                                
-                                
+
                                  panel3.setPreferredSize(new Dimension(150, 150));
                                  panel3.setVisible(true);
-
-                                 
                                  
                                  panel2.setPreferredSize(new Dimension(150,150));
                                  panel2.setVisible(true);
@@ -299,32 +303,34 @@ public class Team6Cover  extends JPanel{
 				ImageIcon icon = new ImageIcon(img);
                                 in.close();
                                 out.close();
-                                ghost = new Team6Ghost();
-                                thread = new Thread(ghost); 
-                                thread.start();
-                                map = new JLabel( new ImageIcon(( new ImageIcon(img)).getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH)));
+
+                                map.setIcon(icon); 
+                                //= new JLabel( new ImageIcon(( new ImageIcon(img)).getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH)));
 
 				//map.setIcon(icon);
+                                in.close();
+                                out.close();
+                                
+                                thread.start();
 				panel3.add(map);
                                 
-                                layeredPane = new JLayeredPane();
                                 layeredPane.setPreferredSize(new Dimension(150,150));
                                 panel3.add(layeredPane, BorderLayout.CENTER);
 
-                                  
-                                  map.setSize(layeredPane.getPreferredSize());
-                                  map.setLocation(0,0);
-                                  layeredPane.add(map, JLayeredPane.DEFAULT_LAYER);
 
-                                  
-                                  layeredPane.add(myImage, JLayeredPane.PALETTE_LAYER);
-                                  layeredPane.add(ghost, JLayeredPane.PALETTE_LAYER);
+                                map.setSize(layeredPane.getPreferredSize());
+                                map.setLocation(0,0);
+                                layeredPane.add(map, JLayeredPane.DEFAULT_LAYER);
 
-                                  panel3.setBounds(1,1,150,150);
 
-                                  layeredPane.setBounds(0,0,90,90);
-                                  layeredPane.setOpaque(false);
+                                layeredPane.add(myImage, JLayeredPane.PALETTE_LAYER);
+                                layeredPane.add(ghost, JLayeredPane.PALETTE_LAYER);
 
+                                panel3.setBounds(1,1,150,150);
+
+                                layeredPane.setBounds(0,0,90,90);
+                                layeredPane.setOpaque(false);
+                               
                                   
                                   
 
@@ -359,7 +365,7 @@ public class Team6Cover  extends JPanel{
         
                  panel.add(dialog);
 
-                 add(panel);
+                 this.add(panel);
                  //add(panel2);
 
         } catch(IOException e){

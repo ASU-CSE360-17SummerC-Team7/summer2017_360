@@ -49,16 +49,17 @@ class Team7Ghost extends JPanel
     private int yg;
     public int xbound, ybound;
     private static final int step = 10;    // how many pixels stepped in whatever direction
-    private static final String iconPath="imagesTeam7/ghost_";
+    private static String iconPath;
+    private static final int ghostScale = 50;
 
-    public Team7Ghost(int xbound,int ybound) 
+    public Team7Ghost(int xbound,int ybound,String imp) 
     {
-        
+        iconPath=imp+"/ghost_";
         xg=0;yg=0;
         this.xbound = xbound;
         this.ybound = ybound;
-        dir="right";//new ImageIcon((new ImageIcon("mycity.jpg")).getImage().getScaledInstance(200, 200,java.awt.Image.SCALE_SMOOTH))
-        animation = new JLabel ("",new ImageIcon((new ImageIcon(getFullIconPath()).getImage().getScaledInstance(50, 50,
+        dir="right";
+        animation = new JLabel ("",new ImageIcon((new ImageIcon(getFullIconPath()).getImage().getScaledInstance(ghostScale, ghostScale,
                 java.awt.Image.SCALE_SMOOTH)),"Blinky"),JLabel.CENTER);
         this.add(animation);
         this.setBounds(xg,yg,xbound,ybound);
@@ -98,12 +99,12 @@ class Team7Ghost extends JPanel
     }
     public boolean moveGhostRight() { 
         //if(isXwithinBounds(xg+step)) 
-        if((xg+step+animation.getIcon().getIconWidth()/2)<= xbound/2){ updateGhostCoordinates(xg+step,yg); return true;}
+        if((xg+step+animation.getIcon().getIconWidth()/3)<= xbound/2){ updateGhostCoordinates(xg+step,yg); return true;}
         else return false;
     }
     public boolean moveGhostLeft() { 
         //if(isXwithinBounds(xg-step))
-        if((xg-step-animation.getIcon().getIconWidth()/2)>=(-xbound/2)){ updateGhostCoordinates(xg-step,yg); return true;}
+        if((xg-step-animation.getIcon().getIconWidth()/3)>=(-xbound/2)){ updateGhostCoordinates(xg-step,yg); return true;}
         else return false;
     }
     public boolean moveGhostUp() { 
@@ -118,11 +119,11 @@ class Team7Ghost extends JPanel
     }
     public void updateGhostAnimation() throws IOException{
        // animation.setIcon(new ImageIcon(ImageIO.read(new File(getFullIconPath()))));
-       animation.setIcon(new ImageIcon((new ImageIcon(getFullIconPath()).getImage().getScaledInstance(50, 50,
+       animation.setIcon(new ImageIcon((new ImageIcon(getFullIconPath()).getImage().getScaledInstance(ghostScale, ghostScale,
                 java.awt.Image.SCALE_SMOOTH)),"Blinky"));
     }
     public String getFullIconPath(){ 
-    	System.out.println("Getting image from "+ iconPath +dir+".png");
+    	//System.out.println("Getting image from "+ iconPath +dir+".png");
     	return iconPath+dir+".png";}
 
     /*public int getMaxX() { 

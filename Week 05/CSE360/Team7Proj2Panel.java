@@ -9,10 +9,11 @@ public class Team7Proj2Panel extends JPanel{
     Object[] cityList = {"Tempe", "New York", "LA", "Chicago", "Houston", "Dallas", "Austin", "Detroit", "Boston", "Seattle"};
     double latitude = 33.4255, longitude = -111.9400;
     Team7WeatherPanel weather;
-    Team7googleMap map;
+    Team7GoogleMap map;
     
-    Team7Proj2Panel()
+    Team7Proj2Panel(int xbound, int ybound, String iP)
     {
+        this.setSize(xbound,ybound);
         setLayout(new java.awt.GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
@@ -22,16 +23,16 @@ public class Team7Proj2Panel extends JPanel{
         c.weightx = 0.6666;
         c.weighty = 1;
         setVisible(true);
-        
+        setBackground(Color.white);
 //        JButton choosingCity = new JButton("Choose City");
 //        choosingCity.addActionListener(new cityChoosingListener());
 //        add(choosingCity);
         
         
-        map = new Team7googleMap(latitude, longitude);
+        map = new Team7GoogleMap(latitude, longitude,((xbound*2)/3),ybound);
         add(map);
         c.gridx=1;c.weightx = 0.333;
-        weather = new Team7WeatherPanel(latitude, longitude);
+        weather = new Team7WeatherPanel(latitude, longitude,iP,(xbound/3),ybound);
         add(weather);       
     }
     public void DisplayGeoMenu() {

@@ -15,16 +15,20 @@ import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-class Team7googleMap extends JPanel{
+class Team7GoogleMap extends JPanel{
     double latitude,longitude;
     private JLabel map;
+    private int xbound;
+    private int ybound;
     //constructor
-    public Team7googleMap(double latitude, double longitude)     {
+    public Team7GoogleMap(double latitude, double longitude, int xb, int yb)     {
+        xbound=xb;ybound=yb;
+        this.setSize(xbound,ybound);
     	updateGeoLoc(latitude,longitude);
         //add(new JLabel(new ImageIcon((new ImageIcon("mycity.jpg")).getImage().getScaledInstance(250, 250,
                 //java.awt.Image.SCALE_SMOOTH))));
         //setVisible(true);
-        map =new JLabel(new ImageIcon((new ImageIcon("mycity.jpg")).getImage().getScaledInstance(200, 200,
+        map =new JLabel(new ImageIcon((new ImageIcon("mycity.jpg")).getImage().getScaledInstance(xbound, ybound,
                 java.awt.Image.SCALE_SMOOTH))); 
         add(map);
         setVisible(true);
@@ -32,7 +36,7 @@ class Team7googleMap extends JPanel{
     }
     public void updateMap(double latitude, double longitude) { 
         updateGeoLoc(latitude,longitude);
-        map.setIcon(new ImageIcon((new ImageIcon("mycity.jpg")).getImage().getScaledInstance(200, 200,
+        map.setIcon(new ImageIcon((new ImageIcon("mycity.jpg")).getImage().getScaledInstance(xbound, ybound,
                 java.awt.Image.SCALE_SMOOTH)));
         this.revalidate(); this.repaint();
     }

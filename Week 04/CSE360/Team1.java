@@ -40,7 +40,7 @@ public class Team1 extends JPanel implements MouseListener {
 	JPanel imagePanel = new JPanel();
 	JPanel weatherPanel = new JPanel();
 	private JPanel basePanel = new JPanel();
-	private final static String FILE_PATH = "src/CSE360/Team1Images/";
+	private final static String FILE_PATH = "Team1Images/";
 	public final static String GHOST_FILE_NAME = FILE_PATH + "red_ghost.jpg";
 	// LOCATIONS
 	HashMap<String, String> cityLocMap = new HashMap<String, String>();
