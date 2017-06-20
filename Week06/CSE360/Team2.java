@@ -74,8 +74,8 @@ public class Team2 extends JPanel implements ActionListener {
             l_temp.setBackground(Color.LIGHT_GRAY);
             l_temp.setFont(new Font("Sans Serif", Font.BOLD, 25));
             SpringLayout layout = new SpringLayout();
-            layout.putConstraint(SpringLayout.WEST, l_temp, 2, SpringLayout.WEST, all);
-            layout.putConstraint(SpringLayout.SOUTH, l_temp, 2, SpringLayout.SOUTH, all);
+            layout.putConstraint(SpringLayout.WEST, l_temp, 10, SpringLayout.WEST, this);
+            layout.putConstraint(SpringLayout.SOUTH, l_temp, -10, SpringLayout.SOUTH, this);
             // Add components to whole panel
             all.setLayout(layout);
             all.add(l_temp);
@@ -186,5 +186,4 @@ public class Team2 extends JPanel implements ActionListener {
            DisplayDialog();
         }
     }
-    
 }
