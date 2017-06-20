@@ -187,7 +187,6 @@ public class Team2 extends JPanel implements ActionListener {
         SpringLayout layout = new SpringLayout();
         Weather.setLayout(layout);
         Weather.setBackground(Color.LIGHT_GRAY);
-        Weather.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         Weather.add(pic);
         layout.putConstraint(SpringLayout.WEST, pic, 2, SpringLayout.WEST, Weather);
         layout.putConstraint(SpringLayout.NORTH, pic, 2, SpringLayout.NORTH, Weather);
