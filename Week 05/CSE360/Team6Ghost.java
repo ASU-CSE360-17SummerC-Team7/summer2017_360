@@ -54,7 +54,7 @@
                         
                         
  			try {
- 				Thread.sleep(50);
+ 				Thread.sleep(60);
  			} catch (InterruptedException e) {
  				System.out.println("Error");
  			}
