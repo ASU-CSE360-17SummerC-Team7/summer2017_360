@@ -2,6 +2,7 @@ package CSE360;
 
 /*
  * Team 5
+ * @author Melissa Day
  * @author Austin McCleary
  * @author Zelin Bao
  * @author Yuxue Zhou
@@ -65,7 +66,7 @@ public class Team5City extends JPanel {
 		
 	
 		main.setBorder(BorderFactory.createLineBorder(Color.red, 1));
-		main.setSize(250 ,125);
+		main.setSize(166,206);
 		main.setOpaque(false);
 		main.setVisible(true);
 		

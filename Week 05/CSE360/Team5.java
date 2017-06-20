@@ -2,6 +2,7 @@ package CSE360;
 
 /*
  * Team 5
+ * @author Melissa Day
  * @author Austin McCleary
  * @author Zelin Bao
  * @author Yuxue Zhou
@@ -38,14 +39,21 @@ public class Team5 extends JPanel implements ActionListener {
 		
 
 		button = new JButton();
+		/*
 		button.setIcon(new ImageIcon(this.getClass().getResource("/Team5Images/setting.jpg")));
+		
+		*/
+		ImageIcon image = new ImageIcon("/Users/zelinbao/Documents/workspace/CSE360WWWW/src/Team5Images/setting.jpg");
+		
+		button.setIcon(image);
+		
 		button.setPreferredSize(new Dimension(90, 50));
 		button.addActionListener(this);
 		button.setVisible(true);
 		button.setBounds(150, 70, 100, 100);
 
 		this.setLayout(new FlowLayout());
-		this.setBounds(125, 80, 250, 155);
+		this.setBounds(125, 80, 166, 206);
 		this.setVisible(true);
 
 		add(button);
