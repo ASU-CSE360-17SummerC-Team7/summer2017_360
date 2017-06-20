@@ -44,7 +44,6 @@ public class Team2 extends JPanel implements ActionListener {
         Thread tRace = new Thread(blinky);
         tRace.start();
         all.setBounds(0, 0, FRAME_WIDTH , FRAME_HEIGHT);        
-        this.setBounds(0, -4, FRAME_WIDTH, FRAME_HEIGHT);
         JLabel gear = new JLabel(new ImageIcon((new ImageIcon("src/CSE360/Team2Images/geer.png")).getImage().getScaledInstance(32, 32, java.awt.Image.SCALE_SMOOTH)));
         gear.addMouseListener(new MouseAdapter() {
             @Override
