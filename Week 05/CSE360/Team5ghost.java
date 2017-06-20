@@ -14,15 +14,10 @@ public class Team5ghost extends JPanel implements Runnable{
 	
 	public Team5ghost(){
 		
-	/*
+	
 	  JLabel ghost = new JLabel(new ImageIcon(
            (new ImageIcon(this.getClass().getResource("/Team5Images/Ghost.png")).getImage())));
       
-      */
-		
-		ImageIcon image = new ImageIcon("/Users/zelinbao/Documents/workspace/CSE360WWWW/src/Team5Images/Ghost.png");
-		JLabel ghost = new JLabel();
-		ghost.setIcon(image);
 		
 		
 	  ghost.setSize(49, 49);
@@ -69,7 +64,7 @@ public class Team5ghost extends JPanel implements Runnable{
 	 				setBounds(x, y, 166, 206);
 	 				//this.setBounds(x, y, width, height);
 	 				setOpaque(false);
-	 				Thread.sleep(100);
+	 				Thread.sleep(50);
 		}
 			} catch (InterruptedException e) {
 			}
