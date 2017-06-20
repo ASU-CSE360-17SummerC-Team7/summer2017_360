@@ -69,7 +69,7 @@ public class Team2 extends JPanel implements ActionListener {
             // Set map image as label
             JLabel map = setMap("AIzaSyCz92cudhuiKxqRG-AEFPHbEXk-6H_R9eM", "roadmap", 250, 55, 2, "result.jpg", lat, lon);     
             // Get and set weather info
-            JPane weather = setWeather(getWeather("29fd0065da58c853121182640d464df8", lat, lon));                         
+            Team2JPane weather = setWeather(getWeather("29fd0065da58c853121182640d464df8", lat, lon));                         
             // Add components to whole panel
             all.setLayout(new GridLayout(2,1));
             all.add(map);
@@ -130,8 +130,8 @@ public class Team2 extends JPanel implements ActionListener {
         return new JSONObject(json);   
     }
     
-    // Returns a JPane that displays the weather information passed into the method.
-    private JPane setWeather(JSONObject obj) throws JSONException {
+    // Returns a Team2JPane that displays the weather information passed into the method.
+    private Team2JPane setWeather(JSONObject obj) throws JSONException {
         //5 Weather info: Temperature, Visibility, WindSpeed, Humidity, DewPoint  
         Double temp = obj.getJSONObject("currently").getDouble("temperature");            
         Font general = new Font("Sans Serif", Font.BOLD, 12);
@@ -183,7 +183,7 @@ public class Team2 extends JPanel implements ActionListener {
             System.out.println(ex);
             System.exit(1);
         }
-        JPane Weather = new JPane();
+        Team2JPane Weather = new Team2JPane();
         //Use SpringLayout
         SpringLayout layout = new SpringLayout();
         Weather.setLayout(layout);
@@ -276,22 +276,4 @@ public class Team2 extends JPanel implements ActionListener {
         }
     }
     
-    // Nested class for that performs similar to JLabel save for the addition of a gradient background.
-    public class JPane extends JLabel {
-        public JPane() {
-        }
-        @Override
-        protected void paintComponent(Graphics g) {
-            Graphics2D g2d = (Graphics2D) g.create();
-            LinearGradientPaint lgp = new LinearGradientPaint(
-            new Point(0, 0),
-            new Point(0, getHeight()),
-            new float[]{0.1f, 0.3f, 0.9f},
-            new Color[]{new Color(220, 220, 255), new Color(150, 150, 210), new Color(40, 40, 100)});
-            g2d.setPaint(lgp);
-            g2d.fill(new Rectangle(0, 0, getWidth(), getHeight()));
-            g2d.dispose();
-            super.paintComponent(g);
-        }
-    }
 }
