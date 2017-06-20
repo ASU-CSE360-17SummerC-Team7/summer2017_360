@@ -1,12 +1,5 @@
 package CSE360;
 
-/*
- * Team 5
- * @author Austin McCleary
- * @author Zelin Bao
- * @author Yuxue Zhou
- */
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 
@@ -47,7 +40,7 @@ public class Team5ghost extends JPanel implements Runnable{
 	 				x = x + xvalueChange;	// updates ghost's x position
 	 				y = y + yvalueChange; // updates ghost's y position
 	 				
-	 				if (x > 250) { // update ghost's location so it stays on panel
+	 				if (x > 390) { // update ghost's location so it stays on panel
 	 					
 	 					xvalueChange = -xChange;
 	 					//x = 5;
@@ -58,15 +51,16 @@ public class Team5ghost extends JPanel implements Runnable{
 	 					//y = 5;
 	 				}
 	 				
-	 				if (x <= -250) {
+	 				if (x < 0) {
 	 					xvalueChange = xChange;
 	 				}
 	 				
-	 				if (y < 0) {
+	 				if (y < 50) {
 	 					yvalueChange = yChange;
 	 				}
 	 				
-	 				setBounds(x, y, 250, 125);
+	 				setBounds(x, y, 166, 206);
+	 				//this.setBounds(x, y, width, height);
 	 				setOpaque(false);
 	 				Thread.sleep(100);
 		}
