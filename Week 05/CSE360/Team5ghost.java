@@ -1,5 +1,12 @@
 package CSE360;
 
+/*
+ * Team 5
+ * @author Austin McCleary
+ * @author Zelin Bao
+ * @author Yuxue Zhou
+ */
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 
@@ -59,7 +66,8 @@ public class Team5ghost extends JPanel implements Runnable{
 	 					yvalueChange = yChange;
 	 				}
 	 				
-	 				setBounds(x, y, 250, 155);
+	 				setBounds(x, y, 250, 125);
+	 				setOpaque(false);
 	 				Thread.sleep(100);
 		}
 			} catch (InterruptedException e) {
