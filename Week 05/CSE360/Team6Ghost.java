@@ -1,5 +1,8 @@
-
- package CSE360;
+//Authors:  Joel Menja
+//          Manuel Ucles
+//          Michael Warnick
+ 
+package CSE360;
 
  import javax.swing.*;
 
