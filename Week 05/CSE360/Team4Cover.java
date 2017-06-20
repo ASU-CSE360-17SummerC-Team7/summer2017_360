@@ -103,7 +103,7 @@ public class Team4Cover extends JPanel {
 	   	layeredPane.setPreferredSize(new Dimension(250,150));
 	   	this.setPreferredSize(new Dimension(250, 150));
 	   
-	    JLabel myImage = new JLabel(new ImageIcon("/CSE360/Pac-Man-Ghost-PNG-Transparent-Image.png"));
+	    JLabel myImage = new JLabel(new ImageIcon("Team4Images/Pac-Man-Ghost-PNG-Transparent-Image.png"));
 	  	layeredPane.add(myImage, JLayeredPane.PALETTE_LAYER);
 	    layeredPane.add(ghost, JLayeredPane.PALETTE_LAYER);
 	    
@@ -245,7 +245,11 @@ public class Team4Cover extends JPanel {
         comboImagePanel.setLayout(new FlowLayout());
         comboSelectionPanel.setLayout(new FlowLayout());
         comboPanel.setLayout(new BorderLayout());
-        comboImagePanel.add(new JLabel(new ImageIcon((new ImageIcon("wunderground_logo.jpg")).getImage().
+        System.out.println(this.getClass().getResource("Team4Images/wunderground_logo.jpg"));
+                
+        //comboImagePanel.add(new JLabel(new ImageIcon((new ImageIcon("wunderground_logo.jpg")).getImage().
+        comboImagePanel.add(new JLabel(new ImageIcon((new ImageIcon(this.getClass().getResource("Team4Images/wunderground_logo.jpg"))).getImage().
+
         getScaledInstance(220, 70, java.awt.Image.SCALE_SMOOTH))));
         comboPanel.add(comboImagePanel,BorderLayout.NORTH);
         comboSelectionPanel.add(selectCity);

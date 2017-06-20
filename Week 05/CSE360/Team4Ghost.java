@@ -13,8 +13,14 @@
    
 
  	public Team4Ghost() { //Constructor
- 		ImageIcon newImage = new ImageIcon("./CSE360/Pac-Man-Ghost-PNG-Transparent-Image.png"); //gets the ghost image
+ 	   // try{
+ 	    System.out.println("Test");
+ 		//ImageIcon newImage = new ImageIcon("Team4Images/Pac-Man-Ghost-PNG-Transparent-Image.png"); //gets the ghost image
+ 		//System.out.println(this.getClass().getResource("Team4Images/Pac-Man-Ghost-PNG-Transparent-Image.png"));
+                ImageIcon newImage = new ImageIcon(this.getClass().getResource("Team4Images/Pac-Man-Ghost-PNG-Transparent-Image.png"));
  		setIcon(new ImageIcon(newImage.getImage().getScaledInstance(29, 34, 0))); //scales the image
+ 	   // }
+ 	   // catch(IOException e)
  	}
 
  	//Basic Algorithm that moves the ghost along the x axis at the bottom of a panel
