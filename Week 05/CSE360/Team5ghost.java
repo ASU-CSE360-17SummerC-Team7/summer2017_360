@@ -55,7 +55,7 @@ public class Team5ghost extends JPanel implements Runnable{
 	 					xvalueChange = xChange;
 	 				}
 	 				
-	 				if (y < 50) {
+	 				if (y < 0) {
 	 					yvalueChange = yChange;
 	 				}
 	 				
