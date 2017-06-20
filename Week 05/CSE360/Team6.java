@@ -2,7 +2,7 @@
 //          Manuel Ucles
 //          Michael Warnick
 
-package cse360;
+package CSE360;
 
 import javax.swing.JPanel;
 
