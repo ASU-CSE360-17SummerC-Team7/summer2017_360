@@ -58,15 +58,8 @@ public class Team5 extends JPanel implements ActionListener {
 
 			this.removeAll();
 			this.setBorder(null);
-			add(new Team5Layers());
+			add(new Team5City());
 
 		}
 	}
-
-	 public static void main(String[] args) {
-		 JFrame j = new JFrame();
-		 Team5 t = new Team5();
-		 j.add(t);
-		 j.setVisible(true);
-	 }
 }

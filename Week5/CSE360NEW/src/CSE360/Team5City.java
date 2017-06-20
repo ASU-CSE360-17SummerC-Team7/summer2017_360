@@ -66,18 +66,23 @@ public class Team5City extends JPanel {
 		
 	
 		main.setBorder(BorderFactory.createLineBorder(Color.red, 1));
-		main.setSize(250,125);
+		main.setSize(166,206);
 		main.setOpaque(false);
-		add(main);
 		main.setVisible(true);
 		
 		
 		//add ghost
-		ghost Ghost = new ghost();
-		main.add(Ghost);
+		Team5ghost Ghost = new Team5ghost();
+		//main.add(Ghost);
 		Ghost.setVisible(true);
 		//Ghost.setOpaque(true);
 		
+		JLayeredPane layers = new JLayeredPane();
+    	layers.setLayout(new BorderLayout());
+    	layers.add(Ghost, 1000);
+    	layers.add(main, 1);
+		add(layers);
+
 		
 		
 	}
