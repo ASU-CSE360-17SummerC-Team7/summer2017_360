@@ -218,7 +218,7 @@ public class Team6Cover  extends JPanel{
         
  
       //static JLabel map = new JLabel();
-        JLabel myImage = new JLabel(new ImageIcon("src/CSE360/Team6Images/Pac-Man-Ghost-PNG-Transparent-Image.png"));
+        JLabel myImage = new JLabel(new ImageIcon("Team6Images/Pac-Man-Ghost-PNG-Transparent-Image.png"));
         
         JLayeredPane layeredPane = new JLayeredPane();
         
