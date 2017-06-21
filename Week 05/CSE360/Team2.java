@@ -8,32 +8,29 @@ Lin Sun
 package CSE360;
 import java.awt.*;
 import java.io.*;
-
 import javax.swing.*;
 import org.json.*;
 import java.net.*;
 import java.awt.event.*;
 
-
 public class Team2 extends JPanel implements ActionListener {
-    private static JLabel all;        
+    private static JLabel all; 
+    private static JLabel map;
+    private static JLabel gear;
+    private static Team2JPane weather;
+    private static String fileName;
     private static String city_name;
     private static Team2Ghost blinky;
     private static Team2Cover cover;
     private static JLayeredPane layeredPane;
-    private static final int FRAME_WIDTH = 250;
-    private static final int FRAME_HEIGHT = 125;
-
+    private static int FRAME_WIDTH = 250;
+    private static int FRAME_HEIGHT = 125;
     
     public Team2() {        
-        this("Tempe");        
-    }
-        
-    public Team2(String result) {        
         all = new JLabel();
-        city_name = result;
         layeredPane = new JLayeredPane();
-        layeredPane.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));        
+        layeredPane.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+        fileName = "result.jpg";
         try {
             blinky = new Team2Ghost("src/CSE360/Team2Images/Blinky2.gif", "src/CSE360/Team2Images/Blinky.gif", FRAME_WIDTH, FRAME_HEIGHT);
         } catch (IOException b) {
@@ -44,40 +41,74 @@ public class Team2 extends JPanel implements ActionListener {
         Thread tRace = new Thread(blinky);
         tRace.start();
         all.setBounds(0, 0, FRAME_WIDTH , FRAME_HEIGHT);        
-        JLabel gear = new JLabel(new ImageIcon((new ImageIcon("src/CSE360/Team2Images/geer.png")).getImage().getScaledInstance(32, 32, java.awt.Image.SCALE_SMOOTH)));
+        gear = new JLabel(new ImageIcon((new ImageIcon("src/CSE360/Team2Images/geer.png")).getImage().getScaledInstance(32, 32, java.awt.Image.SCALE_SMOOTH)));
         gear.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 DisplayDialog();                  
             }
         });
-        gear.setBounds(FRAME_WIDTH - 40, FRAME_HEIGHT -40, 32, 32);        
-        cover = new Team2Cover(FRAME_WIDTH , FRAME_HEIGHT);    
+        gear.setBounds(FRAME_WIDTH - 40, FRAME_HEIGHT - 40, 32, 32);        
+        cover = new Team2Cover();
+        cover.setCoverSize(FRAME_WIDTH, FRAME_HEIGHT);
         layeredPane.setOpaque(false);               
         layeredPane.add(all, new Integer(1));           
         layeredPane.add(blinky, new Integer(2));
         layeredPane.add(cover, new Integer(3));  
         layeredPane.add(gear, new Integer(4));        
         this.add(layeredPane);
-    }
+        this.addComponentListener(new ComponentAdapter(){
+            public void componentResized(ComponentEvent e) {
+                FRAME_WIDTH = getWidth(); 
+                FRAME_HEIGHT = getHeight();
+                fullValidate();
+            }
+        });
+    }    
     
+    public void fullValidate() {
+        if (map != null) {
+            all.remove(map);
+            map = new JLabel(new ImageIcon((new ImageIcon(fileName)).getImage().getScaledInstance(FRAME_WIDTH, FRAME_HEIGHT, java.awt.Image.SCALE_SMOOTH)));         
+            all.add(map);
+        }
+        if (weather != null) {
+            all.remove(weather);          
+            all.add(weather);
+        }
+        all.setBounds(0, 0, FRAME_WIDTH , FRAME_HEIGHT); 
+        all.revalidate();
+        all.repaint();
+        cover.setCoverSize(FRAME_WIDTH, FRAME_HEIGHT);
+        layeredPane.remove(blinky);
+        try {
+            blinky = new Team2Ghost("src/CSE360/Team2Images/Blinky2.gif", "src/CSE360/Team2Images/Blinky.gif", FRAME_WIDTH, FRAME_HEIGHT);
+        } catch (IOException b) {
+            System.out.println(b);
+            System.exit(1);            
+        } 
+        layeredPane.add(blinky, new Integer(2));
+        layeredPane.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT)); 
+        gear.setBounds(FRAME_WIDTH - 40, FRAME_HEIGHT - 40, 32, 32); 
+        layeredPane.revalidate();
+        layeredPane.repaint();
+    } 
     // Initialize the weather panel.
     private void init(double lat, double lon) {
         try {            
-            all.removeAll();            
-            // Set map image as label
-            JLabel map = setMap("AIzaSyCz92cudhuiKxqRG-AEFPHbEXk-6H_R9eM", "roadmap", 250, 55, 2, "result.jpg", lat, lon);     
+            all.removeAll();
+            FRAME_HEIGHT = getHeight();
+            FRAME_WIDTH = getWidth();
+            // Set map image as label            
+            map = setMap("AIzaSyCz92cudhuiKxqRG-AEFPHbEXk-6H_R9eM", "roadmap", FRAME_WIDTH, FRAME_HEIGHT, 2, lat, lon);     
             // Get and set weather info
-            Team2JPane weather = setWeather(getWeather("29fd0065da58c853121182640d464df8", lat, lon));                         
+            weather = setWeather(getWeather("29fd0065da58c853121182640d464df8", lat, lon));                         
             // Add components to whole panel
             all.setLayout(new GridLayout(2,1));
-            all.add(map);
+            all.add(map);            
             all.add(weather);
-            all.revalidate();
-            all.repaint();
-            layeredPane.remove(cover);
-            layeredPane.revalidate();
-            layeredPane.repaint();
+            fullValidate();
+            layeredPane.remove(cover);            
         } catch (IOException | JSONException e) {
             System.out.println(e);
             System.exit(1);
@@ -85,7 +116,7 @@ public class Team2 extends JPanel implements ActionListener {
     }
     
     // Returns a JLabel displaying the map of the location based on the given parameters.
-    private JLabel setMap(String gKey, String mapType, int mapWidth, int mapHeight, int scale, String fileName, double lat, double lon) throws IOException{
+    private JLabel setMap(String gKey, String mapType, int mapWidth, int mapHeight, int scale, double lat, double lon) throws IOException{
         /*-------------------------------GoogleMap--------------------------------*/
         // Concatenate URL
         String mapUrl = "https://maps.googleapis.com/maps/api/staticmap?"
