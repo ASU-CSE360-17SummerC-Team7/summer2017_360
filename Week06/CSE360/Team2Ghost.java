@@ -16,8 +16,8 @@ public class Team2Ghost extends JLabel implements Runnable {
     public int y;
     private int hspeed;
     private int vspeed;
-    private final int FRAME_HEIGHT;
-    private final int FRAME_WIDTH;
+    private int FRAME_HEIGHT;
+    private int FRAME_WIDTH;
     private String imgRight;
     private String imgLeft;
     Random r;
@@ -36,6 +36,17 @@ public class Team2Ghost extends JLabel implements Runnable {
         hspeed = r.nextInt(3) + 1;
         vspeed = r.nextInt(3) + 1;
                 
+    }
+    
+    public void setFrame(int n, int j) {
+        FRAME_WIDTH = n;
+        FRAME_HEIGHT = j;
+        if (x > FRAME_WIDTH) {
+            x = FRAME_WIDTH - 32;
+        }
+        if (y > FRAME_HEIGHT) {
+            y = FRAME_HEIGHT - 32;
+        }
     }
     
     // Move the ghost around the screen and bounces it off the frame boundaries.
