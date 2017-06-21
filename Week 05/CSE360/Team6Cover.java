@@ -1,7 +1,6 @@
 //Authors:  Joel Menja
 //          Manuel Ucles
 //          Michael Warnick
-
 package CSE360;
 
 
@@ -18,7 +17,7 @@ import java.awt.event.*;
 import java.nio.charset.Charset;
 import java.security.Security;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -49,7 +48,7 @@ public class Team6Cover  extends JPanel{
 		 InputStream in =  new URL(url).openStream();
 		 try{
 			 BufferedReader read = new BufferedReader(
-					 new InputStreamReader(in, Charset.forName("UTF-8")));
+                            new InputStreamReader(in, Charset.forName("UTF-8")));
 			 String jsonText = readThis(read);
 			 JSONObject jsn = new JSONObject(jsonText);
 			 
@@ -101,6 +100,8 @@ public class Team6Cover  extends JPanel{
                // System.out.println("Selected city " + city);
                 Team6Cover.d.setVisible(false);
                 Team6Cover.panel.setVisible(false);
+                
+                
                 //panel.setVisible(false);
                
                 //city = c;
@@ -196,6 +197,7 @@ public class Team6Cover  extends JPanel{
      JLayeredPane layeredPane;
      Team6Ghost ghost;
      Thread thread;
+     int i= 0;
     public Team6Cover() {
 
         JLabel label1 = new JLabel(" Weather: ");
@@ -213,9 +215,10 @@ public class Team6Cover  extends JPanel{
         Team6Ghost ghost = new Team6Ghost();; 
         JPanel layeredPanel = new JPanel();
         Thread thread = new Thread(ghost);
+        
  
       //static JLabel map = new JLabel();
-        JLabel myImage = new JLabel(new ImageIcon("Team6Images/Pac-Man-Ghost-PNG-Transparent-Image.png"));
+        JLabel myImage = new JLabel(new ImageIcon("src/CSE360/Team6Images/Pac-Man-Ghost-PNG-Transparent-Image.png"));
         
         JLayeredPane layeredPane = new JLayeredPane();
         
@@ -243,7 +246,7 @@ public class Team6Cover  extends JPanel{
             /************************** Start try and catch **************************************/
            Double atl, lon;
            
-           setPreferredSize(new Dimension(500,500));
+           //setPreferredSize(new Dimension(500,500));
            
            jon = readURL("https://api.darksky.net/forecast/4f02d91363f259f5ca95263c5c032dfc/33.6744664,-112.1386462");
              JButton dialog = new JButton("city");
@@ -326,8 +329,30 @@ public class Team6Cover  extends JPanel{
 				//map.setIcon(icon);
                                 in.close();
                                 out.close();
-                                
                                 thread.start();
+                                /*
+                                try{
+                                    thread.start();
+                                }catch(IllegalThreadStateException ev){
+                                    thread.sleep(1);
+                                    //thread = new Thread(ghost);
+                                }
+                                
+                                
+                                if(i == 0){
+                                  thread.start();
+                                  System.out.println(i);
+                                  
+                                }
+                                if(i >= 1){
+                                   ghost.stop();
+                                   ghost.resume();
+                                   
+                                  
+                                }
+                                i++;
+                                */
+                                
 				panel3.add(map);
                                 
                                 layeredPane.setPreferredSize(new Dimension(150,150));
@@ -342,7 +367,7 @@ public class Team6Cover  extends JPanel{
                                 layeredPane.add(myImage, JLayeredPane.PALETTE_LAYER);
                                 layeredPane.add(ghost, JLayeredPane.PALETTE_LAYER);
 
-                                panel3.setBounds(1,1,150,150);
+                                panel3.setBounds(0,0,150,150);
 
                                 layeredPane.setBounds(0,0,100,100);
                                 layeredPane.setOpaque(false);
@@ -365,9 +390,9 @@ public class Team6Cover  extends JPanel{
                         
                       
                         } catch (IOException ex) {
-                            Logger.getLogger(Team6Cover.class.getName()).log(Level.SEVERE, null, ex);
+                            //Logger.getLogger(Team6Cover.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (JSONException ex) {
-                            Logger.getLogger(Team6Cover.class.getName()).log(Level.SEVERE, null, ex);
+                           // Logger.getLogger(Team6Cover.class.getName()).log(Level.SEVERE, null, ex);
                         }
     
                       }
@@ -385,9 +410,11 @@ public class Team6Cover  extends JPanel{
                  //add(panel2);
 
         } catch(IOException e){
-                 System.exit(1);     
+                 System.exit(1); 
+                 System.out.println(e);
         } catch(JSONException e){
-                 System.exit(1);       
+                 System.exit(1);    
+                 System.out.println(e);
         }
     }
     
