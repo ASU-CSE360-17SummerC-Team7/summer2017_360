@@ -2,7 +2,7 @@
  * Team8Ghost class inheriting from JPanel,
  * Contain the moving ghost in ghostLabel
  */
-//package CSE360;
+package CSE360;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
