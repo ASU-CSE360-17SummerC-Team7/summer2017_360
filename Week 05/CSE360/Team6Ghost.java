@@ -1,14 +1,11 @@
-//Authors:  Joel Menja
-//          Manuel Ucles
-//          Michael Warnick
- 
-package CSE360;
+
+ package CSE360;
 
  import javax.swing.*;
 
  public class Team6Ghost extends JLabel implements Runnable {
-   
-
+         boolean exit = false;
+        
  	public Team6Ghost() { 
  		ImageIcon newImage = new ImageIcon("Team6Images/Pac-Man-Ghost-PNG-Transparent-Image.png"); 
  		setIcon(new ImageIcon(newImage.getImage().getScaledInstance(27, 32, 0))); 
@@ -17,6 +14,7 @@ package CSE360;
  	
  	@Override
  	public void run() {
+                
  		int x = 0;
  		int y = 70;
                 //max y = 70;
@@ -28,7 +26,7 @@ package CSE360;
  		int width = 118;
  		int height = 123;
  		
- 		while (true) {
+ 		while (exit != true) {
  			setBounds(x, y, width, height);
  			if (x <= 0 && y > 70) {
                             y = 70;
@@ -57,11 +55,23 @@ package CSE360;
                         
                         
  			try {
- 				Thread.sleep(60);
+ 				Thread.sleep(50);
  			} catch (InterruptedException e) {
  				System.out.println("Error");
  			}
  		}
+                
+                
  	}
+        public void stop(){
+        exit = true;
+        System.out.println("stop");
+    }
+        public void resume(){
+        exit = false;
+        System.out.println("resume");
+        run();
+    }
+        
         
  }
