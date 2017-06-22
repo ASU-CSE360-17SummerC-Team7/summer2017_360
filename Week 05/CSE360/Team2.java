@@ -80,14 +80,7 @@ public class Team2 extends JPanel implements ActionListener {
         all.revalidate();
         all.repaint();
         cover.setCoverSize(FRAME_WIDTH, FRAME_HEIGHT);
-        layeredPane.remove(blinky);
-        try {
-            blinky = new Team2Ghost("src/CSE360/Team2Images/Blinky2.gif", "src/CSE360/Team2Images/Blinky.gif", FRAME_WIDTH, FRAME_HEIGHT);
-        } catch (IOException b) {
-            System.out.println(b);
-            System.exit(1);            
-        } 
-        layeredPane.add(blinky, new Integer(2));
+        blinky.setFrame(FRAME_WIDTH, FRAME_HEIGHT);
         layeredPane.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT)); 
         gear.setBounds(FRAME_WIDTH - 40, FRAME_HEIGHT - 40, 32, 32); 
         layeredPane.revalidate();
