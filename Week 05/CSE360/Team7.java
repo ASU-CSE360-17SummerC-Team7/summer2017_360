@@ -3,6 +3,7 @@ package CSE360;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.File;
 
 /* 
 File: Team7.java
@@ -35,13 +36,26 @@ public class Team7 extends JPanel
     boolean initialState;
     private int xbound=200;
     private int ybound=150;
-    private String imagePath = "CSE360/Team7Images";
+    private String imagePath = "CSE360/Team7Images"; // default image path that works for default projects [no setup, no src path, no additional include dirs]
 
     public Team7()
     {
+        // pdreiter - some error handling for images - make sure that Team7Images path is correct, despite project include paths
+        if((new File(imagePath)).isDirectory()){ System.out.println("Opening up images from "+imagePath+" for Team7\n"); }
+        else{
+            System.out.println("\n[TEAM7] Cannot find directory: "+imagePath);
+            imagePath="Team7Images"; // this is in case the CSE360 subdirectory is in the incdir path
+            if((new File(imagePath)).isDirectory()){ System.out.println("Opening up images from "+imagePath+" for Team7\n"); }
+            else {
+                System.out.println("\n[TEAM7] Cannot find directory: "+imagePath);
+                imagePath = "src/CSE360/Team7Images"; // this is a similar root path that Team2 did on Project 3
+                if((new File(imagePath)).isDirectory()){ System.out.println("Opening up images from "+imagePath+" for Team7\n"); }
+                else { System.out.println("\n[TEAM7] Cannot find directory: "+imagePath+"\nERROR: Program for Team7 will not display properly!!!\n"); }
+            }
+        }
       //  System.out.println("Height: "+Float.toString(this.getRootPane().getSize().height)+" ; Width: "+Float.toString(this.getRootPane().getSize().width));
         this.setBackground(Color.white);
-        
+        // Calling setPreferredSize for all JPanels in case JFrame calls pack(), so that the optimal width and height is reflected
         initialState=true;
         this.setPreferredSize(new Dimension(xbound, ybound));
         setOpaque(false);
