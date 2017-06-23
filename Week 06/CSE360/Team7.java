@@ -34,6 +34,7 @@ public class Team7 extends JPanel
     Team7OverlayObject gear;
     Team7Ghost ghost;
     boolean initialState;
+    boolean showGhost;
     private int xbound=200;
     private int ybound=150;
     private String imagePath = "CSE360/Team7Images"; // default image path that works for default projects [no setup, no src path, no additional include dirs]
@@ -73,21 +74,22 @@ public class Team7 extends JPanel
         gear = new Team7OverlayObject(xbound, ybound,imagePath);
         gear.setPreferredSize(new Dimension(xbound, ybound));
         ghost = new Team7Ghost(xbound, ybound,imagePath);
-        
+        showGhost=true;
         gear.addMouseListener(new MouseAdapter(){
           @Override
           public void mouseClicked(MouseEvent e) { 
             if(initialState==true){ 
                 layer.remove(p1);
                 gear.setVisible(true);
-                ghost.setVisible(true);
-                startGhostMovement();
+                ghost.startGhostMovement();
                 layer.add(p2, new Integer(1));
                 layer.revalidate();
                 layer.repaint();
                 initialState=false;
             }
             else {
+
+                ghost.toggleGhostMovement();
                 p2.DisplayGeoMenu();
             }
           }      
@@ -115,23 +117,19 @@ public class Team7 extends JPanel
                 layer.remove(p1);
                 gear.setVisible(true);
                 ghost.setVisible(true);
-                startGhostMovement();
+                ghost.startGhostMovement();
                 layer.add(p2, new Integer(1));
                 layer.revalidate();
                 layer.repaint();
                 initialState=false;
             }
             else {
+                showGhost=!showGhost;// stop ghost every other time the listener is called
+                if(showGhost==false){ ghost.stopGhostMovement(); }
+                else { ghost.startGhostMovement(); } 
+                
                 p2.DisplayGeoMenu();
             }
-            
         }
-    }
-    
-    private void startGhostMovement() {
-        ghost.setVisible(true);
-        Thread ta = new Thread(new ghostAnimationLoop(ghost));
-        ta.start();
-    }
-
+    }   
 }

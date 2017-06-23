@@ -21,6 +21,7 @@ import org.json.JSONObject;
 /**
  *
  * @author pdreiter
+ * @modified reducing class overhead - only getting "currently" JSON object to speed up darksky API access
  */
 public class Team7WeatherInfo {
     private Timestamp curTime;
@@ -51,11 +52,7 @@ public class Team7WeatherInfo {
         return darksky.getString("timezone");
     }
     private boolean isValid_TimeType(String timeType){ 
-        if (    timeType.matches("currently")||
-                timeType.matches("minutely")||
-                timeType.matches("hourly")||
-                timeType.matches("daily")
-            ) { return true; }
+        if (timeType.matches("currently")) { return true; }
         else { return false; }
     }
     private boolean isValid_WeatherInfoKey(String wkey){ 
@@ -88,7 +85,7 @@ public class Team7WeatherInfo {
         else { return false; }
     }
     public String getWeatherFieldString(String timeType, String wkey){
-        if ( !isValid_TimeType(timeType) ) { return "ERROR: Invalid timeType (valid: currently, minutely, hourly, daily)"; }
+        if ( !isValid_TimeType(timeType) ) { return "ERROR: Invalid timeType (valid: currently) (deprecated: minutely, hourly, daily)"; }
         else if ( !isValid_WeatherInfoKey(wkey)) {  return "ERROR: Invalid weather key";  }
         else { 
             if(isWeatherInfoKey_String(wkey)) { 
@@ -108,7 +105,10 @@ public class Team7WeatherInfo {
     }
     private void updateDarkSKYJSONObject() { 
         String ourAPIKey = "fc32de3a545df155ae6e26a367e4259f";
-        String darkSKYURL_ForecastRequest = "https://api.darksky.net/forecast/"+ourAPIKey+"/"+String.valueOf(this.latitude)+","+String.valueOf(this.longitude);
+        String excludeBlocks="?exclude=minutely,hourly,daily,alerts,flags";
+        String darkSKYURL_ForecastRequest = "https://api.darksky.net/forecast/"+
+                ourAPIKey+"/"+String.valueOf(this.latitude)+","+String.valueOf(this.longitude)
+                +excludeBlocks;
         //System.out.print(darkSKYURL_ForecastRequest);
         try { darksky = readJSONFromURL(darkSKYURL_ForecastRequest); }
         catch(IOException e) {} // ignoring exceptions for now
@@ -136,25 +136,5 @@ public class Team7WeatherInfo {
             return json;
         } 
     } 
-
-
-    private JSONObject getCurrently() {
-        return darksky.getJSONObject("currently");
-    }
-    private JSONObject getMinutely() {
-        return darksky.getJSONObject("minutely");
-    }
-    private JSONObject getHourly() {
-        return darksky.getJSONObject("hourly");
-    }
-    private JSONObject getDaily() {
-        return darksky.getJSONObject("daily");
-    }
-    private JSONObject getAlerts() {
-        return darksky.getJSONObject("alerts");
-    }
-    private JSONObject getFlags() {
-        return darksky.getJSONObject("flags");
-    }
 
 }

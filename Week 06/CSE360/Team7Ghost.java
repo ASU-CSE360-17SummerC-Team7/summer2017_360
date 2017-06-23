@@ -41,7 +41,7 @@ import javax.swing.SwingUtilities;
 //
 
 //about the moving, the origin is the center point of the top height
-class Team7Ghost extends JPanel 
+class Team7Ghost extends JPanel implements Runnable
 {
     private JLabel animation;
     private String dir;
@@ -51,9 +51,12 @@ class Team7Ghost extends JPanel
     private static final int step = 10;    // how many pixels stepped in whatever direction
     private static String iconPath;
     private static final int ghostScale = 50;
-
+    private boolean isVisible;
+    Thread gt;
+    
     public Team7Ghost(int xbound,int ybound,String imp) 
     {
+        isVisible=true;
         iconPath=imp+"/ghost_";
         xg=0;yg=0;
         this.xbound = xbound;
@@ -65,8 +68,9 @@ class Team7Ghost extends JPanel
         this.setBounds(xg,yg,xbound,ybound);
         setVisible(false);
         setOpaque(false);
-      
+
     }
+
     public void setDirection(int a){ 
         switch(a) { 
             case 0: 
@@ -98,22 +102,18 @@ class Team7Ghost extends JPanel
         }
     }
     public boolean moveGhostRight() { 
-        //if(isXwithinBounds(xg+step)) 
         if((xg+step+animation.getIcon().getIconWidth()/3)<= xbound/2){ updateGhostCoordinates(xg+step,yg); return true;}
         else return false;
     }
     public boolean moveGhostLeft() { 
-        //if(isXwithinBounds(xg-step))
         if((xg-step-animation.getIcon().getIconWidth()/3)>=(-xbound/2)){ updateGhostCoordinates(xg-step,yg); return true;}
         else return false;
     }
     public boolean moveGhostUp() { 
-        //if(isYwithinBounds(yg-step))
     	if((yg-step)>=0){ updateGhostCoordinates(xg,yg-step); return true;}
         else return false;
     }
     public boolean moveGhostDown() { 
-        //if(isYwithinBounds(yg+step))
         if((yg+step+animation.getIcon().getIconHeight())<=ybound){ updateGhostCoordinates(xg,yg+step); return true;}
         else return false;
     }
@@ -122,28 +122,8 @@ class Team7Ghost extends JPanel
        animation.setIcon(new ImageIcon((new ImageIcon(getFullIconPath()).getImage().getScaledInstance(ghostScale, ghostScale,
                 java.awt.Image.SCALE_SMOOTH)),"Blinky"));
     }
-    public String getFullIconPath(){ 
-    	//System.out.println("Getting image from "+ iconPath +dir+".png");
-    	return iconPath+dir+".png";}
+    public String getFullIconPath(){ return iconPath+dir+".png";}
 
-    /*public int getMaxX() { 
-        JFrame upperFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        System.out.println(upperFrame.getSize().width);
-        return upperFrame.getSize().width;
-    }
-    public int getMaxY() { 
-        JFrame upperFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        System.out.println(upperFrame.getSize().height);
-        return upperFrame.getSize().height;
-    }
-
-    public boolean isXwithinBounds(int x) { 
-        return (((x-animation.getIcon().getIconWidth())>=(-(getMaxX()/2))) && (x+animation.getIcon().getIconWidth()<= (getMaxX()/2)));
-    }
-    public boolean isYwithinBounds(int y) { 
-        return (((y-animation.getIcon().getIconHeight())>=(-getMaxY()))&& ((y+animation.getIcon().getIconHeight())<= 0));
-    }     
-    */     
     public void updateGhostCoordinates(int x,int y) {
         xg=x;yg=y;
         setLocation(xg,yg);
@@ -157,45 +137,61 @@ class Team7Ghost extends JPanel
     public String getDirection(){ return dir; }
     public int getXloc() { return xg; }
     public int getYloc() { return yg; }
-}
+    // handling ghost status within class
+    public void toggleGhostMovement(){
+        isVisible=!isVisible;
+        if(isVisible==false){ stopGhostMovement();}
+        else { startGhostMovement(); }
+    }
+    // moving GhostAnimationLoop thread stuff into the Ghost class
+    public void startGhostMovement() {
+        setVisible(true);
+        gt = new Thread(this);
+        gt.start();
+        
+    }
+    public void stopGhostMovement() {
+        setVisible(false);
+        gt.interrupt();
+        while(gt.isInterrupted()==true){} // wait until thread has completely been interrupted
+        gt=null; System.gc(); // then delete thread and clean up
+    }
 
+    @Override
+    public void run(){
+        int i=0;
+        int moveCtr=0;
 
+        while (true) { 
+            try { 
+                if(gt.interrupted()) { return; }
+                if(moveCtr<=0) { 
+                    moveCtr = 30; //(int) (Math.random()%40); 
+                    setDirection((int) (Math.floor(Math.random()*101))%4);
+                }
+                //pause for 0.1 seconds
+                gt.sleep(100);
+                //System.out.println(gal.getFullIconPath());
+                try {
+                    // if it's not a valid move within boundaries of the frame, then don't move, but regenerate random direction on next loop
+                    if(moveGhost()==false){ 
+                        moveCtr=0; 
+                        //System.out.println("("+Integer.toString(gal.getXloc())+","+Integer.toString(gal.getYloc())+")\n => MAX: "+Integer.toString(gal.getMaxX())+","+Integer.toString(gal.getMaxY())+")");
+                    } 
 
-    class ghostAnimationLoop implements Runnable {
-        private final Team7Ghost gal;
-        public ghostAnimationLoop(Team7Ghost g){
-            gal=g;
-        }
-        @Override
-        public void run(){
-            int i=0;
-            int moveCtr=0;
-
-            while (true) { 
-                try { 
-                    if(moveCtr<=0) { 
-                        moveCtr = 30; //(int) (Math.random()%40); 
-                        gal.setDirection((int) (Math.floor(Math.random()*101))%4);
-                    }
-                    //pause for 0.1 seconds
-                    Thread.sleep(100);
-                    //System.out.println(gal.getFullIconPath());
-                    try {
-                        boolean validMove = gal.moveGhost(); 
-                        // if it's not a valid move within boundaries of the frame, then don't move, but regenerate random direction on next loop
-                        if(validMove==false){ 
-                            moveCtr=0; 
-                            //System.out.println("("+Integer.toString(gal.getXloc())+","+Integer.toString(gal.getYloc())+")\n => MAX: "+Integer.toString(gal.getMaxX())+","+Integer.toString(gal.getMaxY())+")");
-                        } 
-                        
-                        gal.updateGhostAnimation();
-                    } catch (IOException ex) {
-                        Logger.getLogger(Team7Ghost.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    i=(++i)%100;moveCtr--;
-                } catch (InterruptedException ex) {
+                    updateGhostAnimation();
+                } catch (IOException ex) {
                     Logger.getLogger(Team7Ghost.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                i=(++i)%100;moveCtr--;
+            } catch (InterruptedException ex) {
+                return; // we've been interrupted, no more thread execution
             }
         }
     }
+
+
+
+}
+
+
