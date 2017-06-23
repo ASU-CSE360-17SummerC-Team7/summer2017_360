@@ -22,7 +22,6 @@ public class Team2Cover extends JPanel implements ActionListener{
 	
         // Create a Team2 object, populating the Blocks array and starting the timer.
 	public Team2Cover() {
-            this.setBounds(0, 0, 250, 125); 
 		t.start();		
 		for (int i = 0; i < blocks.length; i++){
 			for (int j = 0; j < blocks[i].length; j++){
@@ -31,14 +30,14 @@ public class Team2Cover extends JPanel implements ActionListener{
 		}
 	}
         
-        public Team2Cover(int width, int height) {
-            this.setBounds(0, 0, width, height); 
-		t.start();		
-		for (int i = 0; i < blocks.length; i++){
-			for (int j = 0; j < blocks[i].length; j++){
-				blocks[i][j] = new Team2Block(i, j, r.nextInt(225), r.nextInt(255), r.nextInt(255));
-			}
-		}
+        public void setCoverSize(int width, int height) {		
+            setBounds(0, 0, width, height);
+            blocks = new Team2Block[(width/20) + 1][(height/20) + 1];
+            for (int i = 0; i < blocks.length; i++){
+                    for (int j = 0; j < blocks[i].length; j++){
+                            blocks[i][j] = new Team2Block(i, j, r.nextInt(225), r.nextInt(255), r.nextInt(255));
+                    }
+            }
 	}
 	
         // Update the colors in each block
@@ -58,7 +57,8 @@ public class Team2Cover extends JPanel implements ActionListener{
 	
         // Redraw each block with new the new color
 	public void paint(Graphics g){
-		for (int i = 0; i < blocks.length; i++) {
+            super.paint(g);
+            for (int i = 0; i < blocks.length; i++) {
 			for (int j = 0; j<blocks[0].length; j++){
 				blocks[i][j].draw(g);
 			}

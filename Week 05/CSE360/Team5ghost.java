@@ -20,7 +20,7 @@ public class Team5ghost extends JPanel implements Runnable{
       
       */
 		
-		ImageIcon image = new ImageIcon("/Users/zelinbao/Documents/workspace/CSE360WWWW/src/Team5Images/Ghost.png");
+		ImageIcon image = new ImageIcon("Ghost.png");
 		JLabel ghost = new JLabel();
 		ghost.setIcon(image);
 		
