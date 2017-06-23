@@ -51,12 +51,12 @@ class Team7Ghost extends JPanel implements Runnable
     private static final int step = 10;    // how many pixels stepped in whatever direction
     private static String iconPath;
     private static final int ghostScale = 50;
-    private boolean isVisible;
+    private boolean currentlyVisible;
     Thread gt;
     
     public Team7Ghost(int xbound,int ybound,String imp) 
     {
-        isVisible=true;
+        currentlyVisible=true;
         iconPath=imp+"/ghost_";
         xg=0;yg=0;
         this.xbound = xbound;
@@ -139,18 +139,23 @@ class Team7Ghost extends JPanel implements Runnable
     public int getYloc() { return yg; }
     // handling ghost status within class
     public void toggleGhostMovement(){
-        isVisible=!isVisible;
-        if(isVisible==false){ stopGhostMovement();}
+        if(currentlyVisible==true){ stopGhostMovement();}
         else { startGhostMovement(); }
+    }
+    public void updateGhostMovement(boolean makeVisible){    
+        if(currentlyVisible==makeVisible){ return; } // if the state is the same, don't do anything
+        else { toggleGhostMovement(); }
     }
     // moving GhostAnimationLoop thread stuff into the Ghost class
     public void startGhostMovement() {
+        currentlyVisible=true;
         setVisible(true);
         gt = new Thread(this);
         gt.start();
         
     }
     public void stopGhostMovement() {
+        currentlyVisible=false;
         setVisible(false);
         gt.interrupt();
         while(gt.isInterrupted()==true){} // wait until thread has completely been interrupted
