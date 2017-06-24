@@ -28,17 +28,18 @@ public class Team2 extends JPanel implements Observer{
     private static JLayeredPane layeredPane;
     private static int FRAME_WIDTH = 500;
     private static int FRAME_HEIGHT = 250;
-    //private static ControlCenter c;
+    private static String result;
+    private static Team2GetWeather weatherInfo;
     
     public Team2() {
-        //ControlCenter c
-        //this.c = c.getInstance();
+        result = "";
         all = new JLabel();
         ghostFlag = false;
         coverFlag = false;
         layeredPane = new JLayeredPane();
         cover = new Team2Cover();
         cover.setCoverSize(FRAME_WIDTH , FRAME_HEIGHT);
+        weatherInfo = new Team2GetWeather("29fd0065da58c853121182640d464df8");
         fileName = "result.jpg";
         layeredPane.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));        
         try {
@@ -87,10 +88,10 @@ public class Team2 extends JPanel implements Observer{
         init(0, 0);
         layeredPane.setOpaque(false);               
         layeredPane.add(all, new Integer(1));           
-        layeredPane.add(blinky, new Integer(2));                
         layeredPane.add(gear, new Integer(4));
         layeredPane.add(info, new Integer(4));
-        ghostFlag = true;
+        //layeredPane.add(blinky, new Integer(2));
+        //ghostFlag = true;
         this.add(layeredPane);
         this.addComponentListener(new ComponentAdapter(){
             @Override
@@ -102,6 +103,7 @@ public class Team2 extends JPanel implements Observer{
         });
     }
     
+    // Revalidate all the parts of the panel and set the appropriate locations based on frame size. 
     private void fullValidate() {
         if (map != null) {
             all.remove(map);
@@ -127,7 +129,7 @@ public class Team2 extends JPanel implements Observer{
             // Set map image as label
             map = setMap("AIzaSyCz92cudhuiKxqRG-AEFPHbEXk-6H_R9eM", "roadmap", FRAME_WIDTH, FRAME_HEIGHT, 2, lat, lon);     
             // Get and set weather info
-            Team2GetWeather weatherInfo = new Team2GetWeather("29fd0065da58c853121182640d464df8", lat, lon);
+            weatherInfo.setWeather(lat, lon);
             Double tempValue = weatherInfo.getDoubleInfo("temperature");
             int color_red = tempValue .intValue() * 2;
             if (color_red > 255) {
@@ -183,18 +185,21 @@ public class Team2 extends JPanel implements Observer{
 
    @Override
    public void update(Observable o, Object arg) {
-       /*String result = c.getCity();
-       Team2LatLon coord = new Team2LatLon(result);
-       init(coord.getLat(), coord.getLon());
-       ghostFlag = c.getShowGhost();
-       if (ghostFlag) {
-            layeredPane.remove(blinky);
-            ghostFlag = false;          
-       } else {
-           layeredPane.add(blinky, new Integer(2));
-           ghostFlag = true;
+       if ((((ControlCenter)o).getCity()) != null &&
+            !result.equals(((ControlCenter)o).getCity())) {
+            result = ((ControlCenter)o).getCity();
+            Team2LatLon coord = new Team2LatLon(result);
+            init(coord.getLat(), coord.getLon());
+       }
+       if (ghostFlag != ((ControlCenter)o).getShowGhost()) {
+            if (ghostFlag) {
+                layeredPane.remove(blinky);        
+            } else {
+                layeredPane.add(blinky, new Integer(2));
+            }
+            ghostFlag = ((ControlCenter)o).getShowGhost();
        }
         layeredPane.revalidate();
-        layeredPane.repaint();   */
+        layeredPane.repaint();
     }
 }

@@ -1,14 +1,17 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+CSE360 Summer 2017
+Kyle Sun
+Jingyi Li
+Lin Sun
+*/
 package CSE360;
 
 import java.net.*;
 import java.io.*;
 import org.json.*;
-
+/** 
+ * LatLon takes in a city and can return the latitude and longitude location of that city. 
+ */
 public class Team2LatLon {
     String city;
     JSONObject obj;
@@ -18,6 +21,9 @@ public class Team2LatLon {
         setCity(city);
     }
     
+    /**
+     * Takes in a string parameter for the city and stores its information.    
+     */
     public void setCity(String city) {
         this.city = city;
         if ((this.city != null) && (this.city.length() > 0)) {
@@ -48,11 +54,15 @@ public class Team2LatLon {
            }
        }
     }
-    
+     /**
+     * Return the latitude of the city as a double.    
+     */
     public double getLat() {
         return lat;
     }
-    
+    /**
+     * Return the longitude of the city as a double.    
+     */
     public double getLon() {
         return lon;    }
 

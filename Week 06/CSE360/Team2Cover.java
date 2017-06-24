@@ -5,12 +5,14 @@ Kyle Sun
 Jingyi Li
 Lin Sun
 */
+
 package CSE360;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 import javax.swing.*;
 
+// Team 2 cover shows a grid of squares that randomly change color.
 public class Team2Cover extends JPanel implements ActionListener{
 	
         // Time between changing block colors

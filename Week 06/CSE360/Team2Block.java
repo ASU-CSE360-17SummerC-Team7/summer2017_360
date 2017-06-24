@@ -1,9 +1,3 @@
-
-package CSE360;
-
-import java.awt.Color;
-import java.awt.Graphics;
-
 /*
 CSE360 Summer 2017
 Kyle Sun
@@ -11,6 +5,9 @@ Jingyi Li
 Lin Sun
 */
 
+package CSE360;
+import java.awt.Color;
+import java.awt.Graphics;
 // Block displays a square of varying size and color.
 public class Team2Block {
         // Size of the block in pixels
