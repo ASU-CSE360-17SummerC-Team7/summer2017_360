@@ -39,15 +39,15 @@ public class Team5 extends JPanel implements ActionListener {
 		
 
 		button = new JButton();
-		/*
-		button.setIcon(new ImageIcon(this.getClass().getResource("/Team5Images/setting.jpg")));
+		
+		button.setIcon(new ImageIcon(this.getClass().getResource("Team5Images/setting.jpg")));
 		
 		
-		ImageIcon image = new ImageIcon("/Users/zelinbao/Documents/workspace/CSE360WWWW/src/Team5Images/setting.jpg");
-		*/
-		ImageIcon image = new ImageIcon("setting.jpg");
+		//ImageIcon image = new ImageIcon("/Users/zelinbao/Documents/workspace/CSE360WWWW/src/Team5Images/setting.jpg");
 		
-		button.setIcon(image);
+		//ImageIcon image = new ImageIcon("setting.jpg");
+		
+		//button.setIcon(image);
 		
 		button.setPreferredSize(new Dimension(90, 50));
 		button.addActionListener(this);
