@@ -65,7 +65,6 @@ public class Universe extends JFrame implements ActionListener {
        if (e.getSource()==b1) {
         String message = "Select a location: ";
         String title = "Location";
-        System.out.println("enta here");
         String input = (String)JOptionPane.showInputDialog(this, message, title, 
                 JOptionPane.QUESTION_MESSAGE, null, ControlCenter.CITIES, ControlCenter.CITIES[0]);
         cc.setCity(input);
