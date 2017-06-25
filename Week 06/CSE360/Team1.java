@@ -1,3 +1,10 @@
+/*CSE 360
+ *Team1
+ *Manuel Bravo
+ *Daniel Ene Neagu
+ *Rozhin Azima
+ *Shrinivas Bhat
+ */
 package CSE360;
 
 import java.awt.Color;
@@ -224,8 +231,7 @@ public class Team1 extends JPanel implements Observer {
 				&& ((ControlCenter) o).getGPS() != latLong) {
 			latLong = ControlCenter.getInstance().getGPS();
 			initializePanel();
-		}
-		if (isGhostOn != ((ControlCenter) o).getShowGhost()) {
+		} else if (isGhostOn != ((ControlCenter) o).getShowGhost()) {
 			isGhostOn = ControlCenter.getInstance().getShowGhost();
 			ghost.setGhostOn(isGhostOn);
 		}

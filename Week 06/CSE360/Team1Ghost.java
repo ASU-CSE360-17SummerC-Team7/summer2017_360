@@ -1,9 +1,13 @@
+/*CSE 360
+ *Team1
+ *Manuel Bravo
+ *Daniel Ene Neagu
+ *Rozhin Azima
+ *Shrinivas Bhat
+ */
 package CSE360;
 
 import javax.swing.*;
-
-import java.io.*;
-import java.util.Random;
 
 public class Team1Ghost extends JLabel implements Runnable {
 	private int x = 0;
