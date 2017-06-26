@@ -45,6 +45,7 @@ public class Team7WeatherPanel extends JPanel
      * Creates new form WeatherPanel
      */
     public Team7WeatherPanel(double latitude, double longitude,int xb, int yb)  {
+
         setLayout(new BorderLayout());
         xbound=xb;ybound=yb;
         geoLocation = new Team7WeatherInfo(latitude,longitude);
@@ -52,7 +53,7 @@ public class Team7WeatherPanel extends JPanel
         System.out.println("Initial temperature: "+geoLocation.getWeatherFieldString("currently", "temperature")+"\u00b0"+"F");
         temp.setHorizontalAlignment(JLabel.LEFT);
         add(temp,BorderLayout.SOUTH);
-        setOpaque(true);
+        setOpaque(false);
         setVisible(true);
         setSize(xb,yb);
     }
@@ -61,6 +62,11 @@ public class Team7WeatherPanel extends JPanel
         geoLocation.UpdateGeoLocation(latitude, longitude);
         temp.setText(geoLocation.getWeatherFieldString("currently", "temperature")+"\u00b0"+"F");
         System.out.println("Updated temperature: "+geoLocation.getWeatherFieldString("currently", "temperature")+"\u00b0"+"F");
+    }
+    public void updateBounds(int xb,int yb){
+        xbound=xb;ybound=yb;
+        this.setBounds(0,0,xbound,ybound);
+        this.revalidate();this.repaint();
     }
 }
 

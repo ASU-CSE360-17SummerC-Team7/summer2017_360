@@ -6,6 +6,8 @@
 package CSE360;
 //testing
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.io.File;
 import java.io.IOException;
@@ -55,22 +57,41 @@ class Team7Ghost extends JPanel implements Runnable
     Thread gt;
     
     public Team7Ghost(int xbound,int ybound,String imp) 
-    {
+    {   setOpaque(false);
+        setLayout(new BorderLayout());
         currentlyVisible=true;
         iconPath=imp+"/ghost_";
         xg=0;yg=0;
         this.xbound = xbound;
         this.ybound = ybound;
         dir="right";
-        animation = new JLabel ("",new ImageIcon((new ImageIcon(getFullIconPath()).getImage().getScaledInstance(ghostScale, ghostScale,
-                java.awt.Image.SCALE_SMOOTH)),"Blinky"),JLabel.CENTER);
+        animation = new JLabel (new ImageIcon((new ImageIcon(getFullIconPath()).getImage().getScaledInstance(ghostScale, ghostScale,
+                java.awt.Image.SCALE_SMOOTH)),"Blinky"));
+        animation.setLocation(xg,yg);
         this.add(animation);
-        this.setBounds(xg,yg,xbound,ybound);
+        this.setBounds(0,0,ghostScale,ghostScale);
+        this.setSize(xbound,ybound);
         setVisible(false);
-        setOpaque(false);
-
     }
 
+    public void updateBounds(int xb,int yb){ 
+        xbound=xb;ybound=yb;
+        this.setBounds(0,0,ghostScale,ghostScale);   
+        this.setSize(xbound,ybound);
+        this.setVisible(false);
+
+        this.updateGhostCoordinates(
+                (xg>(xbound/2)-animation.getIcon().getIconHeight()/3)?xbound/2-animation.getIcon().getIconHeight()/3
+                        :((xg<-(xbound/2)+animation.getIcon().getIconHeight()/3)?-(xbound/2)+animation.getIcon().getIconHeight()/3
+                                :xg), 
+                (yg>(ybound/2)-animation.getIcon().getIconHeight()/3)?ybound/2-animation.getIcon().getIconHeight()/3
+                        :((yg<-(ybound/2)+animation.getIcon().getIconHeight()/3)?-(ybound/2)+animation.getIcon().getIconHeight()/3
+                                :yg)
+                );
+
+        this.setVisible(currentlyVisible);
+        this.revalidate();this.repaint();
+    }
     public void setDirection(int a){ 
         switch(a) { 
             case 0: 
@@ -101,32 +122,35 @@ class Team7Ghost extends JPanel implements Runnable
                 return moveGhostRight();
         }
     }
-    public boolean moveGhostRight() { 
+    public boolean moveGhostRight() {
+
         if((xg+step+animation.getIcon().getIconWidth()/3)<= xbound/2){ updateGhostCoordinates(xg+step,yg); return true;}
         else return false;
     }
-    public boolean moveGhostLeft() { 
+    public boolean moveGhostLeft() {
         if((xg-step-animation.getIcon().getIconWidth()/3)>=(-xbound/2)){ updateGhostCoordinates(xg-step,yg); return true;}
         else return false;
     }
-    public boolean moveGhostUp() { 
-    	if((yg-step)>=0){ updateGhostCoordinates(xg,yg-step); return true;}
+    public boolean moveGhostUp() {         
+    	if((yg-step-animation.getIcon().getIconHeight()/3)>=(-ybound/2)){ updateGhostCoordinates(xg,yg-step); return true;}
         else return false;
     }
     public boolean moveGhostDown() { 
-        if((yg+step+animation.getIcon().getIconHeight())<=ybound){ updateGhostCoordinates(xg,yg+step); return true;}
+        if((yg+step+animation.getIcon().getIconHeight()/3)<=(ybound/2)){ updateGhostCoordinates(xg,yg+step); return true;}
         else return false;
     }
     public void updateGhostAnimation() throws IOException{
        // animation.setIcon(new ImageIcon(ImageIO.read(new File(getFullIconPath()))));
        animation.setIcon(new ImageIcon((new ImageIcon(getFullIconPath()).getImage().getScaledInstance(ghostScale, ghostScale,
                 java.awt.Image.SCALE_SMOOTH)),"Blinky"));
+       
     }
     public String getFullIconPath(){ return iconPath+dir+".png";}
 
     public void updateGhostCoordinates(int x,int y) {
         xg=x;yg=y;
         setLocation(xg,yg);
+        //System.out.println("Ghost location: ("+Integer.toString(xg)+","+Integer.toString(yg)+");\n");
     }
     public void updateDirection(int x, int y) {
         if(xg>x){dir="left";}
@@ -149,6 +173,8 @@ class Team7Ghost extends JPanel implements Runnable
     // moving GhostAnimationLoop thread stuff into the Ghost class
     public void startGhostMovement() {
         currentlyVisible=true;
+        animation.setLocation(xg,yg); 
+        
         setVisible(true);
         gt = new Thread(this);
         gt.start();
@@ -159,7 +185,8 @@ class Team7Ghost extends JPanel implements Runnable
         setVisible(false);
         gt.interrupt();
         while(gt.isInterrupted()==true){} // wait until thread has completely been interrupted
-        gt=null; System.gc(); // then delete thread and clean up
+        gt=null; System.gc(); // then delete thread and clean upS
+        //System.out.println("End of Ghost Movement\n");
     }
 
     @Override
@@ -171,7 +198,7 @@ class Team7Ghost extends JPanel implements Runnable
             try { 
                 if(gt.interrupted()) { return; }
                 if(moveCtr<=0) { 
-                    moveCtr = 30; //(int) (Math.random()%40); 
+                    moveCtr = 100; //(int) (Math.random()%40); 
                     setDirection((int) (Math.floor(Math.random()*101))%4);
                 }
                 //pause for 0.1 seconds

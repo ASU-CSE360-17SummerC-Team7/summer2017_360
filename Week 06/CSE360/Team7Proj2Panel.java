@@ -11,7 +11,7 @@ public class Team7Proj2Panel extends JPanel{
     Team7WeatherPanel weather;
     Team7GoogleMap map;
     
-    Team7Proj2Panel(int xbound, int ybound, String iP)
+    Team7Proj2Panel(int xbound, int ybound)
     {
         this.setSize(xbound,ybound);
         setLayout(new java.awt.GridBagLayout());
@@ -32,7 +32,7 @@ public class Team7Proj2Panel extends JPanel{
         map = new Team7GoogleMap(latitude, longitude,((xbound*2)/3),ybound);
         add(map);
         c.gridx=1;c.weightx = 0.333;
-        weather = new Team7WeatherPanel(latitude, longitude,iP,(xbound/3),ybound);
+        weather = new Team7WeatherPanel(latitude, longitude,(xbound/3),ybound);
         add(weather);       
     }
     public void DisplayGeoMenu() {
