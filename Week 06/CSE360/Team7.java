@@ -54,9 +54,7 @@ public class Team7 extends JPanel
                 else { System.out.println("\n[TEAM7] Cannot find directory: "+imagePath+"\nERROR: Program for Team7 will not display properly!!!\n"); }
             }
         }
-      //  System.out.println("Height: "+Float.toString(this.getRootPane().getSize().height)+" ; Width: "+Float.toString(this.getRootPane().getSize().width));
-        this.setBackground(Color.white);
-        // Calling setPreferredSize for all JPanels in case JFrame calls pack(), so that the optimal width and height is reflected
+        setLayout(new BorderLayout());
         initialState=true;
         this.setPreferredSize(new Dimension(xbound, ybound));
         setOpaque(false);
@@ -67,7 +65,7 @@ public class Team7 extends JPanel
         p1.setSize(new Dimension(xbound, ybound));
         p1.setPreferredSize(new Dimension(xbound,ybound));
         
-        p2 = new Team7Proj2Panel(xbound,ybound,imagePath);
+        p2 = new Team7Proj2Panel(xbound,ybound);
         p2.setSize(new Dimension(xbound, ybound));
         p2.setPreferredSize(new Dimension(xbound, ybound));
         
@@ -132,4 +130,16 @@ public class Team7 extends JPanel
             }
         }
     }   
+    private void updateBounds(){
+        this.setSize(this.getWidth(),this.getHeight());
+        p1.setSize(this.getWidth(),this.getHeight());
+        layer.setBounds(0, 0, this.getWidth(), this.getHeight());
+        layer.revalidate();layer.repaint(); 
+//        map.updateBounds(this.getWidth(),this.getHeight());
+        ghost.updateBounds(this.getWidth(),this.getHeight());
+//        weather.updateBounds(this.getWidth(),this.getHeight());
+        this.revalidate();this.repaint();
+        super.validate();
+    }
+
 }
