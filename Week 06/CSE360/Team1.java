@@ -59,6 +59,7 @@ public class Team1 extends JPanel implements Observer {
 	JLabel infoLabel = new JLabel(new ImageIcon(new ImageIcon(INFO_FILE_NAME)
 			.getImage().getScaledInstance(30, 25, 0)));
 	JLabel temperatureLabel = new JLabel("Temperature");
+	String temperature;
 
 	public Team1() {
 		isGhostOn = ControlCenter.getInstance().getShowGhost();
@@ -105,6 +106,7 @@ public class Team1 extends JPanel implements Observer {
 	private void initialize() {
 		pane.removeAll();
 		this.setBackground(Color.GRAY);
+		loadTemperature(latLong);
 		setDimension(basePanel, 0, 0, PANEL_WIDTH, PANEL_WIDTH);
 		setDimension(pane, 0, 0, PANEL_WIDTH, PANEL_WIDTH);
 		setDimension(settingLabel, PANEL_WIDTH - 50, PANEL_HEIGHT - 40, 30, 25);
@@ -140,7 +142,6 @@ public class Team1 extends JPanel implements Observer {
 				loadBasicPanel();
 			else {
 				drawMapImage(width, height);
-				loadTemperature(latLong);
 			}
 		}
 		basePanel.revalidate();
@@ -149,8 +150,9 @@ public class Team1 extends JPanel implements Observer {
 
 	private void loadTemperature(String latLong) {
 		temperatureLabel.removeAll();
-		System.out.println(latLong + " " + getTemperature(latLong));
-		temperatureLabel = new JLabel("srini" + getTemperature(latLong));
+		getTemperature(latLong);
+		System.out.println(latLong + " " + temperature);
+		temperatureLabel = new JLabel(temperature);
 		temperatureLabel.setFont(new Font("Almendra", Font.ROMAN_BASELINE, 20));
 		temperatureLabel.setForeground(Color.RED);
 		temperatureLabel.revalidate();
@@ -170,10 +172,10 @@ public class Team1 extends JPanel implements Observer {
 		imagePanel.repaint();
 	}
 
-	private String getTemperature(String latLong2) {
+	private void getTemperature(String latLong2) {
 		try {
 			URL url = new URL(
-					"https://api.darksky.net/forecast/b829783e844371d18cd29c0ffd19e42b/"
+					"https://api.darksky.net/forecast/a8d89b8329c66bc61a64b50e625c0159/"
 							+ latLong2);
 			URLConnection connection = url.openConnection();
 			connection.connect();
@@ -187,8 +189,10 @@ public class Team1 extends JPanel implements Observer {
 			JSONObject jsonResult;
 			jsonResult = new JSONObject(sBuilder.toString());
 			bReader.close();
-			return ((JSONObject) jsonResult.get("currently"))
-					.get("temperature") + "";
+			temperature = ""
+					+ ((JSONObject) jsonResult.get("currently"))
+							.get("temperature");
+			System.out.println(temp);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -196,7 +200,6 @@ public class Team1 extends JPanel implements Observer {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return "Temperature";
 	}
 
 	private String getMapImage(String latLong, int width, int height) {
@@ -230,7 +233,7 @@ public class Team1 extends JPanel implements Observer {
 		if (((ControlCenter) o).getGPS() != null
 				&& ((ControlCenter) o).getGPS() != latLong) {
 			latLong = ControlCenter.getInstance().getGPS();
-			initializePanel();
+			initialize();
 		} else if (isGhostOn != ((ControlCenter) o).getShowGhost()) {
 			isGhostOn = ControlCenter.getInstance().getShowGhost();
 			ghost.setGhostOn(isGhostOn);
