@@ -10,21 +10,20 @@ class Team8Cover extends JPanel {
     private String[] names = {"Michael", "Yaqoub", "Amit", "Bahar"};
     private JTextArea text;
 
-    public Team8Cover() {
-        init();
+    public Team8Cover(int height, int width) {
+        init(height, width);
         addComponents();
     }
 
-    private void init() {
+    private void init(int height, int width) {
 
-        int panelW = 250, panelH = 125;
         Font font;
         int fontSize = 22;
         String fontKind = "Arial";
 
         this.setBackground(Color.CYAN);
         //this.setLayout(new BorderLayout());
-        this.setSize(panelW, panelH);
+        this.setSize(height, width);
         //this.setSize(250,125);
         text = new JTextArea(names[0] + "\n" + names[1] + "\n" + names[2] + "\n" + names[3]);
         //text.setFont(text.getFont().deriveFont((this.getWidth()+this.getHeight())/15f));
