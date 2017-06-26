@@ -85,7 +85,7 @@ public class Team1 extends JPanel implements Observer {
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
 				isBasicOn = !isBasicOn;
-				initialize();
+				initializePanel();
 			}
 		});
 		Thread ghostRunner = new Thread(ghost);
