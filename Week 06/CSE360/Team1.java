@@ -61,6 +61,7 @@ public class Team1 extends JPanel implements Observer {
 	JLabel temperatureLabel = new JLabel("Temperature");
 
 	public Team1() {
+		isGhostOn = ControlCenter.getInstance().getShowGhost();
 		this.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
@@ -116,7 +117,6 @@ public class Team1 extends JPanel implements Observer {
 		pane.add(settingLabel, JLayeredPane.PALETTE_LAYER);
 		pane.add(infoLabel, JLayeredPane.PALETTE_LAYER);
 		pane.add(temperatureLabel, JLayeredPane.PALETTE_LAYER);
-		isGhostOn = ControlCenter.getInstance().getShowGhost();
 		ghost.setGhostOn(isGhostOn);
 		pane.revalidate();
 		pane.repaint();
