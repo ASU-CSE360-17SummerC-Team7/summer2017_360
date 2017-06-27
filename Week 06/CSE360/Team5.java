@@ -2,7 +2,7 @@ package CSE360;
 
 /*
  * Team 5
- * 
+ * @author Melissa Day
  * @author Austin McCleary
  * @author Zelin Bao
  * @author Yuxue Zhou
@@ -184,6 +184,7 @@ public class Team5 extends JPanel implements Observer {
 					{
 						public void actionPerformed(ActionEvent e) 
 						{
+							
 							main.removeAll();
 							extra.removeAll();
 							main.setBorder(null);
@@ -195,6 +196,16 @@ public class Team5 extends JPanel implements Observer {
 							main.add(extra);
 							main.setVisible(true);
 							extra.setVisible(true);
+							
+							/*
+							main.removeAll();
+							extra.removeAll();
+							main.setBorder(null);
+							add(new Team5City());
+							*/
+							revalidate();
+							//main.removeAll();
+							repaint();
 						}
 					});
 				}
