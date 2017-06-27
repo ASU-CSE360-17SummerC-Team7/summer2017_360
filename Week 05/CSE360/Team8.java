@@ -1,3 +1,5 @@
+package CSE360;
+
 /*
  * 	CSE 360 - Summer 2017
  * 	Team Members:
@@ -6,8 +8,6 @@
  * 		+ Michael Ostaszewski
  * 		+ Yaqoub Alyakoob
  */
-
-package CSE360;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,16 +29,23 @@ public class Team8 extends JPanel {
     private ImageIcon WeatherIcon, VisibilityIcon, HumidityIcon,
             CloudCoverIcon, WindSpeedIcon;
     private Font font;
+    private int panelH;
+    private int panelW;
 
     public Team8() {
+
+        double height = 266;
+        double width = 266;
+
+        panelH = (int) height;
+        panelW = (int) width;
+
         Initialize();
         ShowCover();
     }
 
     private void Initialize() {
-
-        int panelH = 125, panelW = 250,  //height and width of Team8 panel
-                fontSize = 10;
+        int fontSize = panelW/20;
         JButton optionsButton;
         ImageIcon OptionsIcon;
 
@@ -82,11 +89,11 @@ public class Team8 extends JPanel {
         });
         optionsPanel = new JPanel();
         optionsPanel.setOpaque(false);
-        optionsPanel.setSize(250, 125);
-        optionsPanel.setLocation(110, 100);
+        optionsPanel.setSize(panelW/6, panelH/6);
+        optionsPanel.setLocation((panelW*4)/5, (panelH)/50);
         optionsPanel.add(optionsButton);
 
-        coverPanel = new Team8Cover();
+        coverPanel = new Team8Cover(panelW, panelH);
 
         layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(panelW, panelH));
@@ -137,9 +144,9 @@ public class Team8 extends JPanel {
     private void ShowGhost() {
         Team8Ghost ghostPanel;
 
-        ghostPanel = new Team8Ghost();
+        ghostPanel = new Team8Ghost(panelW, panelH);
         ghostPanel.setOpaque(false);
-        ghostPanel.setSize(250, 125);
+        ghostPanel.setSize(panelW, panelH);
         Thread ghost = new Thread(ghostPanel);
         ghost.start();
         layeredPane.add(ghostPanel, new Integer(8));
@@ -150,53 +157,47 @@ public class Team8 extends JPanel {
         JLabel mapLabel;
         JPanel mapPanel, footerPanel;
 
-        Team8GoogleMaps googleMap = new Team8GoogleMaps(selectedCity.getLatitude(), selectedCity.getLongitude());
+        Team8GoogleMaps googleMap = new Team8GoogleMaps(selectedCity.getLatitude(), selectedCity.getLongitude(), panelW, (panelH*11)/15);
         mapPanel = new JPanel(new BorderLayout());
-        mapPanel.setSize(250, 100);
+        mapPanel.setSize(panelW, (panelH*12)/15);
 
-        if (this.getWidth() > 0)
-            mapLabel = new JLabel(new ImageIcon((googleMap.getImage()).getImage().getScaledInstance(mapPanel.getWidth(), mapPanel.getHeight(), Image.SCALE_SMOOTH)));
-        else
-            mapLabel = new JLabel(googleMap.getImage());
+        mapLabel = new JLabel(googleMap.getImage());
 
         mapPanel.add(mapLabel, BorderLayout.CENTER);
 
         footerPanel = new JPanel();
         footerPanel.setBackground(Color.WHITE);
         footerPanel.setLayout(new BorderLayout());
-        footerPanel.setSize(250, 25);
+        footerPanel.setSize(panelW, (panelH*4)/15);
         footerPanel.add(new JLabel(WeatherIcon), BorderLayout.WEST);
 
         weatherPanel = new JPanel();
         weatherPanel.setLayout(new GridLayout(2, 5));
         weatherPanel.setBackground(Color.WHITE);
 
-        Team8Weather weather = new Team8Weather(selectedCity);
-        JLabel temperatureLabel = new JLabel("" + weather.weatherData.getTemperature() + "°F");
+        Team8Weather team8Weather = new Team8Weather(selectedCity);
+        JLabel temperatureLabel = new JLabel("" + team8Weather.team8WeatherData.getTemperature() + "°F");
         temperatureLabel.setForeground(Color.BLUE);
         temperatureLabel.setFont(font);
-        temperatureLabel.setToolTipText("" + weather.weatherData.getTemperature() + "°F");
+        temperatureLabel.setToolTipText("" + team8Weather.team8WeatherData.getTemperature() + "°F");
 
-        JLabel summaryLabel = new JLabel(weather.weatherData.getSummary());
+        JLabel summaryLabel = new JLabel(team8Weather.team8WeatherData.getSummary());
         summaryLabel.setFont(font);
-        summaryLabel.setToolTipText(weather.weatherData.getSummary());
+        summaryLabel.setToolTipText(team8Weather.team8WeatherData.getSummary());
         weatherPanel.add(temperatureLabel);
 
-        AddWeatherComponent(VisibilityIcon, weather.weatherData.getVisibility(), "Visibility");
-        AddWeatherComponent(HumidityIcon, weather.weatherData.getHumidity(), "Humidity");
+        AddWeatherComponent(VisibilityIcon, team8Weather.team8WeatherData.getVisibility(), "Visibility");
+        AddWeatherComponent(HumidityIcon, team8Weather.team8WeatherData.getHumidity(), "Humidity");
         weatherPanel.add(summaryLabel);
-        AddWeatherComponent(CloudCoverIcon, weather.weatherData.getCloudCover(), "Cloud Cover");
-        AddWeatherComponent(WindSpeedIcon, weather.weatherData.getWindSpeed(), "Wind Speed");
-
-        JPanel whiteSpace = new JPanel();
-        whiteSpace.setBackground(Color.WHITE);
+        AddWeatherComponent(CloudCoverIcon, team8Weather.team8WeatherData.getCloudCover(), "Cloud Cover");
+        AddWeatherComponent(WindSpeedIcon, team8Weather.team8WeatherData.getWindSpeed(), "Wind Speed");
 
         footerPanel.add(weatherPanel, BorderLayout.CENTER);
 
         map_weather_panel = new JPanel(new BorderLayout());
-        map_weather_panel.setSize(250, 125);
-        map_weather_panel.add(mapPanel, BorderLayout.CENTER);
-        map_weather_panel.add(footerPanel, BorderLayout.SOUTH);
+        map_weather_panel.setSize(panelW, panelH);
+        map_weather_panel.add(mapPanel, BorderLayout.NORTH);
+        map_weather_panel.add(footerPanel, BorderLayout.CENTER);
     }
 
     private void ShowDialog() {
