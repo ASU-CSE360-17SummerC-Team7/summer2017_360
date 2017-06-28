@@ -52,7 +52,7 @@ class Team7Ghost extends JPanel implements Runnable
     public Team7Ghost(int xbound,int ybound,String imp) 
     {   setOpaque(false);
         setLayout(new BorderLayout());
-        currentlyVisible=true;
+        currentlyVisible=false;
         iconPath=imp+"/ghost_";
         xg=0;yg=0;
         this.xbound = xbound;
@@ -116,7 +116,6 @@ class Team7Ghost extends JPanel implements Runnable
         }
     }
     public boolean moveGhostRight() {
-
         if((xg+step+animation.getIcon().getIconWidth()/3)<= xbound/2){ updateGhostCoordinates(xg+step,yg); return true;}
         else return false;
     }
@@ -154,17 +153,28 @@ class Team7Ghost extends JPanel implements Runnable
     public String getDirection(){ return dir; }
     public int getXloc() { return xg; }
     public int getYloc() { return yg; }
-    // handling ghost status within class
+    //----------------------------------------------------------------------------------
+    // toggleGhostMovement overrides the Ghost movement with the input boolean parameter
+    // handling ghost status within class - this just handles all movements for the ghost state 
+    // starts or stops the ghost movement (thread) based on the current visibility of the ghost
     public void toggleGhostMovement(){
         if(currentlyVisible==true){ stopGhostMovement();}
         else { startGhostMovement(); }
     }
+    //----------------------------------------------------------------------------------
+    // updateGhostMovement overrides the Ghost movement with the input boolean parameter
+    // if the ghost is already moving and makeVisible==true, no change
+    // if the ghost is not moving and makeVisible == false, no change
+    // if the ghost is already moving and makeVisible==false, toggle Ghost movement
+    // if the ghost is not moving and makeVisible==true, toggle Ghost movement
     public void updateGhostMovement(boolean makeVisible){    
         if(currentlyVisible==makeVisible){ return; } // if the state is the same, don't do anything
         else { toggleGhostMovement(); }
     }
     // moving GhostAnimationLoop thread stuff into the Ghost class
-    public void startGhostMovement() {
+    // private helper function: startGhostMovement
+    // manages starting the ghost thread to ensure that the thread operates correctly
+    private void startGhostMovement() {
         currentlyVisible=true;
         animation.setLocation(xg,yg); 
         
@@ -173,7 +183,9 @@ class Team7Ghost extends JPanel implements Runnable
         gt.start();
         
     }
-    public void stopGhostMovement() {
+    // private helper function: stopGhostMovement
+    // manages stopping the ghost thread to ensure that the thread operates correctly
+    private void stopGhostMovement() {
         currentlyVisible=false;
         setVisible(false);
         gt.interrupt();

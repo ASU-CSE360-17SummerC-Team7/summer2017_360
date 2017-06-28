@@ -96,12 +96,12 @@ public class Team7 extends JPanel implements Observer
         gear.setPreferredSize(new Dimension(xbound, ybound));
         ghost = new Team7Ghost(xbound, ybound, imagePath);
         showGhost=true;
-        showinfo=true;
+        showinfo=false;
         weather.setFont(new Font("Courier",Font.TRUETYPE_FONT,10));
         weather.setVisible(true);
         gear.setVisible(true);
         info.setVisible(true);
-        ghost.startGhostMovement();
+        ghost.updateGhostMovement(showGhost);// initially, make Ghost visible in constructor
 
         addHierarchyBoundsListener(new HierarchyBoundsListener(){
             @Override
@@ -112,14 +112,14 @@ public class Team7 extends JPanel implements Observer
         gear.addMouseListener(new MouseAdapter(){
           @Override
           public void mouseClicked(MouseEvent e) { 
-            if(showGhost==true){ 
-                gear.setVisible(true);
-                ghost.startGhostMovement();
-                showGhost = false;
-            }
-            else {
-                ghost.toggleGhostMovement();
-            }
+            //if(showGhost==true){ 
+            //    ghost.startGhostMovement();
+            //    showGhost = false;
+            //}
+            //else {
+            //    ghost.toggleGhostMovement();
+            //}
+        	ghost.toggleGhostMovement();
             layer.revalidate();
             layer.repaint();
           }      
@@ -144,7 +144,8 @@ public class Team7 extends JPanel implements Observer
             }
         }); 
         layer.add(p1, new Integer(0));
-        layer.add(map, new Integer(0));
+// no need to add map initially, we are dynamically adding and removing it with the listeners
+//        layer.add(map, new Integer(0));
         layer.add(gear, new Integer(2));
         layer.add(info, new Integer(2));
         layer.add(ghost, new Integer(1));
@@ -177,11 +178,17 @@ public class Team7 extends JPanel implements Observer
         
     }
     public void refresh()
-    {
+    {	// need to keep the map view state the same as the showinfo
+    	if(showinfo==false) { 
+    		layer.remove(p1); // get rid of project1 if we're no longer showing it
+    		showinfo=true;
+    	}
     	layer.remove(map);
     	layer.remove(weather);
-    	map = new Team7GoogleMap(lat,lon,xbound,ybound);
+    	map.updateMap(lat,lon);// no need to create a new object, when we can just update the original
+    	//map = new Team7GoogleMap(lat,lon,xbound,ybound);
     	weather = new Team7WeatherPanel((double)lat,(double)lon,(int)(panelXDiv),(int)(7*panelYDiv),xbound,ybound);
+    	//weather.updateWeatherPanel(lat, lon);
         layer.add(weather, new Integer(2));
         layer.add(map, new Integer(1));
         layer.revalidate();
@@ -203,14 +210,15 @@ public class Team7 extends JPanel implements Observer
 	    }
 		else
 		{
-		    if (!cc.getShowGhost()) {
-		    	ghost.toggleGhostMovement();
-		    	showGhost = !showGhost;
-		           }
-		    else {
-		    	ghost.startGhostMovement();
-		    	showGhost = !showGhost;
-		    		}
+			ghost.toggleGhostMovement();
+		    //if (!cc.getShowGhost()) {
+		    //	ghost.toggleGhostMovement();
+		    //	showGhost = !showGhost;
+		    //       }
+		    //else {
+		    //	ghost.startGhostMovement();
+		    //	showGhost = !showGhost;
+		    //		}
 		}
 		     layer.revalidate();
 	         layer.repaint();
