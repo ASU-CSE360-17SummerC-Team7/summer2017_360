@@ -73,7 +73,7 @@ public class Team2GetWeather {
    /**
    * Returns the current condition as a String based on DarkSky's formatting.
    */
-   public String getCondition() {
+   public String getCondition() throws JSONException{
       return jsonObj.getJSONObject("currently").getString("icon");
    }
    
@@ -81,7 +81,7 @@ public class Team2GetWeather {
    * Returns information displayed as a Double based on DarkSky's formatting
    * and the given string of information requested.
    */
-   public double getDoubleInfo(String info) {
+   public double getDoubleInfo(String info) throws JSONException{
       return jsonObj.getJSONObject("currently").getDouble(info);
    }
    
@@ -89,7 +89,7 @@ public class Team2GetWeather {
    * Returns information displayed as an Integer based on DarkSky's formatting
    * and the given string of information requested.
    */
-   public int getIntInfo(String info) {
+   public int getIntInfo(String info) throws JSONException{
       return jsonObj.getJSONObject("currently").getInt(info);
    }
 }
