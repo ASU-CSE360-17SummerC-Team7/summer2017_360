@@ -41,6 +41,9 @@ public class Team7 extends JPanel implements Observer
     boolean showGhost;
     private int xbound=200;
     private int ybound=150;
+    private int imgScale;
+    private float panelXDiv;
+    private float panelYDiv;
     double lat,lon;
     boolean showinfo;
     String whichCity;
@@ -64,8 +67,8 @@ public class Team7 extends JPanel implements Observer
                 else { System.out.println("\n[TEAM7] Cannot find directory: "+imagePath+"\nERROR: Program for Team7 will not display properly!!!\n"); }
             }
         }
-        iconPath = imagePath+"/gear";
-        infoPath = imagePath+"/info";
+        iconPath = imagePath+"/gear.png";
+        infoPath = imagePath+"/info.png";
         setLayout(new BorderLayout());
         lat=33.4255;
         lon=-111.9400;
@@ -81,20 +84,21 @@ public class Team7 extends JPanel implements Observer
         p1 = new Team7Cover();
         p1.setSize(new Dimension(xbound, ybound));
         p1.setPreferredSize(new Dimension(xbound,ybound));
-        //layer.add(p1, new Integer(0));
         
-        
+        imgScale = ybound/5;
+        panelXDiv = xbound/9;
+        panelYDiv = ybound/9;
         map = new Team7GoogleMap(lat,lon,xbound,ybound);
-        weather = new Team7WeatherPanel(lat,lon,xbound,ybound);
-        weather.setPreferredSize(new Dimension(xbound,ybound));
-
-        gear = new Team7OverlayObject(xbound, ybound,iconPath);
-        gear.setPreferredSize(new Dimension(xbound, ybound));
-        info = new Team7OverlayObject(xbound, ybound,infoPath);
+        weather = new Team7WeatherPanel((double)lat,(double)lon,(int)(panelXDiv),(int)(7*panelYDiv),(int)(panelXDiv),(int)(panelYDiv));
+        gear = new Team7OverlayObject((int)(7*panelXDiv), (int)(7*panelYDiv),imgScale,imgScale,iconPath);
+        info = new Team7OverlayObject((int)(4*panelXDiv), (int)(7*panelYDiv),imgScale,imgScale,infoPath);
         info.setPreferredSize(new Dimension(xbound, ybound));
+        gear.setPreferredSize(new Dimension(xbound, ybound));
         ghost = new Team7Ghost(xbound, ybound, imagePath);
         showGhost=true;
         showinfo=true;
+        weather.setFont(new Font("Courier",Font.TRUETYPE_FONT,10));
+        weather.setVisible(true);
         gear.setVisible(true);
         info.setVisible(true);
         ghost.startGhostMovement();
@@ -141,12 +145,13 @@ public class Team7 extends JPanel implements Observer
                 layer.repaint();
             }
         }); 
-        
-        layer.add(gear, new Integer(5));
-        layer.add(info, new Integer(4));
-        layer.add(ghost, new Integer(3));
+//        layer.add(p1, new Integer(0));
+//        layer.add(map, new Integer(0));
+//        layer.add(gear, new Integer(2));
+//        layer.add(info, new Integer(2));
+//        layer.add(ghost, new Integer(1));
         layer.add(weather, new Integer(2));        
-        layer.add(map, new Integer(1)); 
+         
         add(layer);
     }
 
@@ -159,11 +164,18 @@ public class Team7 extends JPanel implements Observer
         int h = this.getHeight();
         if(w<=0){w=500/3;}
         if(h<=0){h=500/3;}
+        xbound=w;ybound=h;
+        imgScale = ybound/5;
+        panelXDiv = xbound/9;
+        panelYDiv = ybound/9;
         p1.setSize(w,h);
-        layer.setBounds(0, 0, w, h);
-        map.updateBounds(w,h);
-        ghost.updateBounds(w,h);
-        weather.updateBounds(w,h);
+        layer.setBounds(0, 0, xbound, ybound);
+        map.updateBounds(xbound, ybound);
+        ghost.updateBounds(xbound, ybound);
+        weather.updateBounds((int)(panelXDiv),(int)(7*panelYDiv),(int)(panelXDiv),(int)(panelYDiv));
+        info.updateBounds((int)(4*panelXDiv), (int)(7*panelYDiv),imgScale,imgScale);
+        gear.updateBounds((int)(7*panelXDiv), (int)(7*panelYDiv),imgScale,imgScale);
+        layer.revalidate();layer.repaint();
         
     }
     public void refresh()
@@ -171,8 +183,7 @@ public class Team7 extends JPanel implements Observer
     	layer.remove(map);
     	layer.remove(weather);
     	map = new Team7GoogleMap(lat,lon,xbound,ybound);
-        weather = new Team7WeatherPanel(lat,lon,xbound,ybound); 
-        weather.setPreferredSize(new Dimension(xbound,ybound));
+    	weather = new Team7WeatherPanel((double)lat,(double)lon,(int)(panelXDiv),(int)(7*panelYDiv),(int)(panelXDiv),(int)(panelYDiv));;
         layer.add(weather, new Integer(2));
         layer.add(map, new Integer(1));
         layer.revalidate();

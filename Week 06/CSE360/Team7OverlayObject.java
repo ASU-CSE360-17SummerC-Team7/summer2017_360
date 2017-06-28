@@ -13,19 +13,26 @@ import javax.swing.JLabel;
  * @author pdreiter
  */
 public class Team7OverlayObject extends JLabel{
-    private static String iconPath;
-    private static final int xscale=30;
-    private static final int yscale=30;
-    public Team7OverlayObject(int xbound, int ybound, String iP) {
- //       JFrame upperFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        iconPath=iP+"/gear.png";
- //       System.out.println("Getting image from "+iconPath);
-        this.setIcon(new ImageIcon((new ImageIcon(iconPath).getImage().getScaledInstance(xscale, yscale,
-                java.awt.Image.SCALE_SMOOTH)),"GearIcon"));
-        this.setBounds(xscale/2,yscale/2,xscale,yscale); //upperFrame.getSize().width/2,upperFrame.getSize().height,512,512);
+    private String iconPath;
+    private int xscale;
+    private int yscale;
+    public Team7OverlayObject(int xoffset, int yoffset, int xs, int ys, String iP) {
+        iconPath=iP;
+        xscale=xs;yscale=ys;
+        System.out.println("Getting image from "+iconPath);
 
+        this.setIcon(new ImageIcon((new ImageIcon(iconPath).getImage().getScaledInstance(xscale, yscale,
+                    java.awt.Image.SCALE_SMOOTH)),"icon"));
+        this.setBounds(xoffset,yoffset,xscale,yscale); //upperFrame.getSize().width/2,upperFrame.getSize().height,512,512);
+        
         setVisible(true);
         setOpaque(false);
+    }
+    public void updateBounds(int xoffset, int yoffset, int xs, int ys) {
+    	xscale=xs;yscale=ys;
+        this.setIcon(new ImageIcon((new ImageIcon(iconPath).getImage().getScaledInstance(xscale, yscale,
+                java.awt.Image.SCALE_SMOOTH)),"icon"));
+    	this.setBounds(xoffset,yoffset,xscale,yscale);
     }
         
 }
