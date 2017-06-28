@@ -157,9 +157,10 @@ class Team7Ghost extends JPanel implements Runnable
     // toggleGhostMovement overrides the Ghost movement with the input boolean parameter
     // handling ghost status within class - this just handles all movements for the ghost state 
     // starts or stops the ghost movement (thread) based on the current visibility of the ghost
-    public void toggleGhostMovement(){
+    public boolean toggleGhostMovement(){
         if(currentlyVisible==true){ stopGhostMovement();}
         else { startGhostMovement(); }
+        return currentlyVisible;
     }
     //----------------------------------------------------------------------------------
     // updateGhostMovement overrides the Ghost movement with the input boolean parameter
@@ -167,9 +168,10 @@ class Team7Ghost extends JPanel implements Runnable
     // if the ghost is not moving and makeVisible == false, no change
     // if the ghost is already moving and makeVisible==false, toggle Ghost movement
     // if the ghost is not moving and makeVisible==true, toggle Ghost movement
-    public void updateGhostMovement(boolean makeVisible){    
-        if(currentlyVisible==makeVisible){ return; } // if the state is the same, don't do anything
-        else { toggleGhostMovement(); }
+    public boolean updateGhostMovement(boolean makeVisible){    
+        if(currentlyVisible!=makeVisible){ toggleGhostMovement(); } 
+        // if the state is the same, don't do anything
+        return currentlyVisible;
     }
     // moving GhostAnimationLoop thread stuff into the Ghost class
     // private helper function: startGhostMovement

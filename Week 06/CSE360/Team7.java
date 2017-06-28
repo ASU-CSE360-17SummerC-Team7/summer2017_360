@@ -101,7 +101,7 @@ public class Team7 extends JPanel implements Observer
         weather.setVisible(true);
         gear.setVisible(true);
         info.setVisible(true);
-        ghost.updateGhostMovement(showGhost);// initially, make Ghost visible in constructor
+        showGhost=ghost.updateGhostMovement(showGhost);// initially, make Ghost visible in constructor
 
         addHierarchyBoundsListener(new HierarchyBoundsListener(){
             @Override
@@ -119,7 +119,7 @@ public class Team7 extends JPanel implements Observer
             //else {
             //    ghost.toggleGhostMovement();
             //}
-        	ghost.toggleGhostMovement();
+        	showGhost=ghost.toggleGhostMovement(); // let encapsulating class know whether or not ghost is visible
             layer.revalidate();
             layer.repaint();
           }      
@@ -188,7 +188,6 @@ public class Team7 extends JPanel implements Observer
     	map.updateMap(lat,lon);// no need to create a new object, when we can just update the original
     	//map = new Team7GoogleMap(lat,lon,xbound,ybound);
     	weather = new Team7WeatherPanel((double)lat,(double)lon,(int)(panelXDiv),(int)(7*panelYDiv),xbound,ybound);
-    	//weather.updateWeatherPanel(lat, lon);
         layer.add(weather, new Integer(2));
         layer.add(map, new Integer(1));
         layer.revalidate();
@@ -209,8 +208,10 @@ public class Team7 extends JPanel implements Observer
 			refresh();
 	    }
 		else
-		{
-			ghost.toggleGhostMovement();
+		{   // if the city didn't change, then the ghost button was hit
+			// the button just toggles the current state of the ghost
+			showGhost = ghost.toggleGhostMovement();
+			
 		    //if (!cc.getShowGhost()) {
 		    //	ghost.toggleGhostMovement();
 		    //	showGhost = !showGhost;
