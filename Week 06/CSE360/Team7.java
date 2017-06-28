@@ -208,9 +208,11 @@ public class Team7 extends JPanel implements Observer
 			refresh();
 	    }
 		else
-		{   // if the city didn't change, then the ghost button was hit
-			// the button just toggles the current state of the ghost
-			showGhost = ghost.toggleGhostMovement();
+		{	
+			// if the city did not change, then the ghost state changed
+			// updating current ghost state with cc.getShowGhost() variable
+			showGhost=ghost.updateGhostMovement(cc.getShowGhost());
+			// if it was just asking to toggle, showGhost=ghost.toggleGhostMovement(); would have been called
 			
 		    //if (!cc.getShowGhost()) {
 		    //	ghost.toggleGhostMovement();
