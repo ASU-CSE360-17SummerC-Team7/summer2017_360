@@ -10,21 +10,12 @@ import java.awt.*;
 
 public class InitialPanel extends JPanel {
     
-
-
-//    private JFrame f;
     private JPanel p;
-    private JButton b1;
     private JLabel lab;
     
     public InitialPanel(){
-        this.setBackground(Color.YELLOW);
         
-        b1 = new JButton("TEST");
-        
-        lab = new JLabel(" Ross, Sean");
-        
-        this.add(b1);
+        lab = new JLabel("Team 4: Ross, Sean");        
         this.add(lab);
     }      
     
