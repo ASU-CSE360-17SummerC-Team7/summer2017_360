@@ -55,13 +55,13 @@ public class Team5ghost extends JPanel implements Runnable {
 				x = x + xvalueChange; // updates ghost's x position
 				y = y + yvalueChange; // updates ghost's y position
 
-				if (x > 120) { // update ghost's location so it stays on panel
+				if (x > 100) { // update ghost's location so it stays on panel
 								// right
 
 					xvalueChange = -xChange;
 					// x = 5;
 				}
-				if (y > 75) { // update ghost's location so it stays on panel
+				if (y > 150) { // update ghost's location so it stays on panel
 								// bottom
 
 					yvalueChange = -yChange;

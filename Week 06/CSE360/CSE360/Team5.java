@@ -37,8 +37,8 @@ public class Team5 extends JPanel implements Observer {
 	String lnglat = "33.424564,-111.928001";
 	Team5ghost Ghost;
 
-	int baseheight = 150;
-	int basewidth = 150;
+	int baseheight = 200;
+	int basewidth = 200;
 
 	int zoom = 12;
 
@@ -90,10 +90,13 @@ public class Team5 extends JPanel implements Observer {
 		 * 
 		 */
 		// buttonPanel.setLayout(null);
-
+       buttonPanel = new JPanel();
 		buttonPanel.setBounds(70, 150, 180, 100);
 		buttonPanel.add(info);
+		
+		
 		buttonPanel.add(ghostAppearing);
+	
 		buttonPanel.setVisible(true);
 		buttonPanel.setOpaque(false);
 
@@ -130,7 +133,8 @@ public class Team5 extends JPanel implements Observer {
 
 		main.setOpaque(false);
 		main.setVisible(true);
-
+		extra.setBounds(0, 0, basewidth, baseheight);
+		main.setBounds(0, 0, basewidth, baseheight);
 		// add ghost
 		Ghost = new Team5ghost();
 		Ghost.setBounds(0, 0, basewidth, baseheight);
@@ -268,7 +272,7 @@ public class Team5 extends JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
-		if (lnglat != ControlCenter.getInstance().getGPS()) {
+		if (lnglat != ControlCenter.getInstance().getGPS() && ControlCenter.getInstance().getGPS() != null) {
 
 			lnglat = ControlCenter.getInstance().getGPS();
 			rebuildWM();
