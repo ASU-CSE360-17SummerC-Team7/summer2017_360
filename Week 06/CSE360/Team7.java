@@ -145,11 +145,11 @@ public class Team7 extends JPanel implements Observer
                 layer.repaint();
             }
         }); 
-//        layer.add(p1, new Integer(0));
-//        layer.add(map, new Integer(0));
-//        layer.add(gear, new Integer(2));
-//        layer.add(info, new Integer(2));
-//        layer.add(ghost, new Integer(1));
+        layer.add(p1, new Integer(0));
+        layer.add(map, new Integer(0));
+        layer.add(gear, new Integer(2));
+        layer.add(info, new Integer(2));
+        layer.add(ghost, new Integer(1));
         layer.add(weather, new Integer(2));        
          
         add(layer);
