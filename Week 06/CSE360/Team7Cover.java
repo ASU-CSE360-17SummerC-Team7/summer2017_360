@@ -21,7 +21,7 @@
  * and open the template in the editor.
  */
 package CSE360;
-import java.awt.*;
+
 import javax.swing.*;
 
 
@@ -38,7 +38,6 @@ public class Team7Cover extends JPanel {
         initComponents();
     }
 
-    @SuppressWarnings("unchecked")
     private void initComponents() {
 
         jTextField1 = new javax.swing.JTextField();

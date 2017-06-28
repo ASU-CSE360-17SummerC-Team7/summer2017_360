@@ -35,14 +35,20 @@ public class Team7 extends JPanel implements Observer
     Team7WeatherPanel weather;
     Team7GoogleMap map;
     Team7OverlayObject gear;
+    Team7OverlayObject info;
     Team7Ghost ghost;
     boolean initialState;
     boolean showGhost;
     private int xbound=200;
     private int ybound=150;
     double lat,lon;
+    boolean showinfo;
+    String whichCity;
+    private ControlCenter cc;
+    // creating a root imagePath directory string to be reused
     private String imagePath = "CSE360/Team7Images"; // default image path that works for default projects [no setup, no src path, no additional include dirs]
 
+    private String iconPath, infoPath;
     public Team7()
     {
         // pdreiter - some error handling for images - make sure that Team7Images path is correct, despite project include paths
@@ -58,6 +64,8 @@ public class Team7 extends JPanel implements Observer
                 else { System.out.println("\n[TEAM7] Cannot find directory: "+imagePath+"\nERROR: Program for Team7 will not display properly!!!\n"); }
             }
         }
+        iconPath = imagePath+"/gear";
+        infoPath = imagePath+"/info";
         setLayout(new BorderLayout());
         lat=33.4255;
         lon=-111.9400;
@@ -73,17 +81,23 @@ public class Team7 extends JPanel implements Observer
         p1 = new Team7Cover();
         p1.setSize(new Dimension(xbound, ybound));
         p1.setPreferredSize(new Dimension(xbound,ybound));
-        layer.add(p1, new Integer(4));
-        add(layer);
+        //layer.add(p1, new Integer(0));
+        
         
         map = new Team7GoogleMap(lat,lon,xbound,ybound);
         weather = new Team7WeatherPanel(lat,lon,xbound,ybound);
         weather.setPreferredSize(new Dimension(xbound,ybound));
 
-        gear = new Team7OverlayObject(xbound, ybound,imagePath);
+        gear = new Team7OverlayObject(xbound, ybound,iconPath);
         gear.setPreferredSize(new Dimension(xbound, ybound));
-        ghost = new Team7Ghost(xbound, ybound,imagePath);
+        info = new Team7OverlayObject(xbound, ybound,infoPath);
+        info.setPreferredSize(new Dimension(xbound, ybound));
+        ghost = new Team7Ghost(xbound, ybound, imagePath);
         showGhost=true;
+        showinfo=true;
+        gear.setVisible(true);
+        info.setVisible(true);
+        ghost.startGhostMovement();
 
         addHierarchyBoundsListener(new HierarchyBoundsListener(){
             @Override
@@ -94,24 +108,46 @@ public class Team7 extends JPanel implements Observer
         gear.addMouseListener(new MouseAdapter(){
           @Override
           public void mouseClicked(MouseEvent e) { 
-            if(initialState==true){ 
-                layer.remove(p1);
+            if(showGhost==true){ 
                 gear.setVisible(true);
                 ghost.startGhostMovement();
-                layer.revalidate();
-                layer.repaint();
-                initialState=false;
+                showGhost = false;
             }
             else {
                 ghost.toggleGhostMovement();
             }
+            layer.revalidate();
+            layer.repaint();
           }      
         });
         
+       info.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (showinfo) {
+                	layer.remove(map);
+                	layer.remove(weather);
+                	layer.add(p1, new Integer(0));
+                	showinfo = false;
+                }
+                else
+                {
+                	layer.remove(p1);
+                	layer.add(map, new Integer(1));
+                	layer.add(weather, new Integer(2));
+                	showinfo = true;
+                }
+                layer.revalidate();
+                layer.repaint();
+            }
+        }); 
+        
         layer.add(gear, new Integer(5));
+        layer.add(info, new Integer(4));
         layer.add(ghost, new Integer(3));
         layer.add(weather, new Integer(2));        
-        layer.add(map, new Integer(2));        
+        layer.add(map, new Integer(1)); 
+        add(layer);
     }
 
 
@@ -130,13 +166,52 @@ public class Team7 extends JPanel implements Observer
         weather.updateBounds(w,h);
         
     }
-
-    @Override
-    public void update(Observable o, Object x){
-        
+    public void refresh()
+    {
+    	layer.remove(map);
+    	layer.remove(weather);
+    	map = new Team7GoogleMap(lat,lon,xbound,ybound);
+        weather = new Team7WeatherPanel(lat,lon,xbound,ybound); 
+        weather.setPreferredSize(new Dimension(xbound,ybound));
+        layer.add(weather, new Integer(2));
+        layer.add(map, new Integer(1));
+        layer.revalidate();
+        layer.repaint();     
     }
+    @Override
+	public void update(Observable o, Object arg1) {
+		cc = (ControlCenter) o;
+		if (whichCity != cc.getCity())
+		{
+			whichCity = cc.getCity();
+			String gps = cc.getGPS();
+			String[] parts = gps.split(",");
+			lat =  Double.parseDouble(parts[0]);
+			lon =  Double.parseDouble(parts[1]);
+			System.out.println(lat);
+			System.out.println(lon);
+			refresh();
+	    }
+		else
+		{
+		    if (!cc.getShowGhost()) {
+		    	ghost.toggleGhostMovement();
+		    	showGhost = !showGhost;
+		           }
+		    else {
+		    	ghost.startGhostMovement();
+		    	showGhost = !showGhost;
+		    		}
+		}
+		     layer.revalidate();
+	         layer.repaint();
+	    }
+		
+	}
+
+
 
 
     
        
-}
+

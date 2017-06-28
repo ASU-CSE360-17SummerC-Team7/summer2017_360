@@ -7,8 +7,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.sql.Timestamp;
-import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,22 +22,16 @@ import org.json.JSONObject;
  * @modified reducing class overhead - only getting "currently" JSON object to speed up darksky API access
  */
 public class Team7WeatherInfo {
-    private Timestamp curTime;
-    private Date curDate;
     private JSONObject darksky;
     private double latitude;
     private double longitude;
     
     public Team7WeatherInfo(double latitude, double longitude){
         this.latitude = latitude; this.longitude = longitude;
-        curDate = new Date();
-        curTime = new Timestamp(curDate.getTime());
         updateDarkSKYJSONObject();
     }
     public void UpdateGeoLocation(double latitude, double longitude){
         this.latitude = latitude; this.longitude = longitude;
-        curDate = new Date();
-        curTime = new Timestamp(curDate.getTime());
         updateDarkSKYJSONObject();
     }
     public String getLongitude() { 
@@ -97,12 +89,6 @@ public class Team7WeatherInfo {
         }
     }
     
-    private JSONObject getLatestWeatherJSON() {
-        curDate = new Date();
-        curTime = new Timestamp(curDate.getTime());
-        updateDarkSKYJSONObject();
-        return darksky;
-    }
     private void updateDarkSKYJSONObject() { 
         String ourAPIKey = "fc32de3a545df155ae6e26a367e4259f";
         String excludeBlocks="?exclude=minutely,hourly,daily,alerts,flags";

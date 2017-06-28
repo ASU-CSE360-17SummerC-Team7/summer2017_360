@@ -1,16 +1,16 @@
 
 package CSE360;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+ import java.awt.BorderLayout;
+ import java.awt.GridLayout;
+ import java.awt.event.ActionEvent;
+ import java.awt.event.ActionListener;
+ import javax.swing.JFrame;
+ import javax.swing.JButton;
+ import javax.swing.JOptionPane;
+ import javax.swing.JPanel;
 
-public class Universe extends JFrame implements ActionListener {
+ public class Universe extends JFrame implements ActionListener {
 
     ControlCenter cc = ControlCenter.getInstance(); 
     Team7 t1 = new Team7();
@@ -61,28 +61,28 @@ public class Universe extends JFrame implements ActionListener {
      add(bar, BorderLayout.SOUTH);     
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-       if (e.getSource()==b1) {
-        String message = "Select a location: ";
-        String title = "Location";
-        String input = (String)JOptionPane.showInputDialog(this, message, title, 
-                JOptionPane.QUESTION_MESSAGE, null, ControlCenter.CITIES, ControlCenter.CITIES[0]);
-        cc.setCity(input);
-        cc.notifyObservers();
-       } else {
-         cc.setShowGhost(!cc.getShowGhost());
+     @Override
+     public void actionPerformed(ActionEvent e) {
+        if (e.getSource()==b1) {
+         String message = "Select a location: ";
+         String title = "Location";
+         String input = (String)JOptionPane.showInputDialog(this, message, title, 
+                 JOptionPane.QUESTION_MESSAGE, null, ControlCenter.CITIES, ControlCenter.CITIES[0]);
+         cc.setCity(input);
          cc.notifyObservers();
-       }
-         
-    }
+        } else {
+          cc.setShowGhost(!cc.getShowGhost());
+          cc.notifyObservers();
+        }
+          
+     }
 
-    public static void main(String[] args) {
-      Universe u = new Universe();
-      u.setTitle("Week 06");
-      u.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      u.setSize(500, 500);
-      u.setVisible(true);
-    }
+     public static void main(String[] args) {
+       Universe u = new Universe();
+       u.setTitle("Week 06");
+       u.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       u.setSize(500, 500);
+       u.setVisible(true);
+     }
 
 }

@@ -1,38 +1,7 @@
 package CSE360;
 
-
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.*;
-
-import java.io.FileReader;
-import java.io.Reader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.nio.charset.Charset;
-import java.net.URL;
-
-import java.lang.Object;
-import java.util.Date;
-import java.sql.Timestamp;
-import java.util.Date;
-
-
 import java.awt.*;
-import java.text.SimpleDateFormat;
 import javax.swing.*;
-import java.util.Date;
-
-import java.awt.GridLayout;
-import java.io.IOException;
-import javax.swing.JFrame;
-import org.json.JSONException;
-
-import java.awt.Font;
-import java.awt.font.*;
-
 
 public class Team7WeatherPanel extends JPanel
 {
@@ -65,7 +34,7 @@ public class Team7WeatherPanel extends JPanel
     }
     public void updateBounds(int xb,int yb){
         xbound=xb;ybound=yb;
-        this.setSize(xb,yb);
+        this.setSize(xbound,ybound);
         
     }
 }
