@@ -22,9 +22,10 @@ class Team7GoogleMap extends JPanel{
     private int ybound;
     //constructor
     public Team7GoogleMap(double latitude, double longitude, int xb, int yb)     {
+        setLayout(new BorderLayout());
         xbound=xb;ybound=yb;
         this.setSize(xbound,ybound);
-    	updateGeoLoc(latitude,longitude);
+        updateGeoLoc(latitude,longitude);
         //add(new JLabel(new ImageIcon((new ImageIcon("mycity.jpg")).getImage().getScaledInstance(250, 250,
                 //java.awt.Image.SCALE_SMOOTH))));
         //setVisible(true);
@@ -38,6 +39,12 @@ class Team7GoogleMap extends JPanel{
         updateGeoLoc(latitude,longitude);
         map.setIcon(new ImageIcon((new ImageIcon("mycity.jpg")).getImage().getScaledInstance(xbound, ybound,
                 java.awt.Image.SCALE_SMOOTH)));
+        this.revalidate(); this.repaint();
+    }
+    public void updateBounds(int xb,int yb) {
+        xbound=xb;ybound=yb; 
+        this.setBounds(0,0,xbound,ybound);
+        map.setIcon(new ImageIcon((new ImageIcon("mycity.jpg")).getImage().getScaledInstance(xbound, ybound,java.awt.Image.SCALE_SMOOTH)));
         this.revalidate(); this.repaint();
     }
     private void updateGeoLoc(double latitude, double longitude)     {

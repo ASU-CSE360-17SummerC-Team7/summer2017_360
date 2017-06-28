@@ -4,6 +4,8 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.File;
+import java.util.Observer;
+import java.util.Observable;
 
 /* 
 File: Team7.java
@@ -26,17 +28,19 @@ Description:
 
 */
 
-public class Team7 extends JPanel
+public class Team7 extends JPanel implements Observer
 {
     JLayeredPane layer;
     Team7Cover p1;
-    Team7Proj2Panel p2;
+    Team7WeatherPanel weather;
+    Team7GoogleMap map;
     Team7OverlayObject gear;
     Team7Ghost ghost;
     boolean initialState;
     boolean showGhost;
     private int xbound=200;
     private int ybound=150;
+    double lat,lon;
     private String imagePath = "CSE360/Team7Images"; // default image path that works for default projects [no setup, no src path, no additional include dirs]
 
     public Team7()
@@ -55,6 +59,11 @@ public class Team7 extends JPanel
             }
         }
         setLayout(new BorderLayout());
+        lat=33.4255;
+        lon=-111.9400;
+      //  System.out.println("Height: "+Float.toString(this.getRootPane().getSize().height)+" ; Width: "+Float.toString(this.getRootPane().getSize().width));
+        this.setBackground(Color.white);
+        // Calling setPreferredSize for all JPanels in case JFrame calls pack(), so that the optimal width and height is reflected
         initialState=true;
         this.setPreferredSize(new Dimension(xbound, ybound));
         setOpaque(false);
@@ -64,15 +73,24 @@ public class Team7 extends JPanel
         p1 = new Team7Cover();
         p1.setSize(new Dimension(xbound, ybound));
         p1.setPreferredSize(new Dimension(xbound,ybound));
+        layer.add(p1, new Integer(4));
+        add(layer);
         
-        p2 = new Team7Proj2Panel(xbound,ybound);
-        p2.setSize(new Dimension(xbound, ybound));
-        p2.setPreferredSize(new Dimension(xbound, ybound));
-        
+        map = new Team7GoogleMap(lat,lon,xbound,ybound);
+        weather = new Team7WeatherPanel(lat,lon,xbound,ybound);
+        weather.setPreferredSize(new Dimension(xbound,ybound));
+
         gear = new Team7OverlayObject(xbound, ybound,imagePath);
         gear.setPreferredSize(new Dimension(xbound, ybound));
         ghost = new Team7Ghost(xbound, ybound,imagePath);
         showGhost=true;
+
+        addHierarchyBoundsListener(new HierarchyBoundsListener(){
+            @Override
+            public void ancestorMoved(HierarchyEvent e) {updateBounds();}
+            @Override
+            public void ancestorResized(HierarchyEvent e) {updateBounds();}
+        });
         gear.addMouseListener(new MouseAdapter(){
           @Override
           public void mouseClicked(MouseEvent e) { 
@@ -80,66 +98,45 @@ public class Team7 extends JPanel
                 layer.remove(p1);
                 gear.setVisible(true);
                 ghost.startGhostMovement();
-                layer.add(p2, new Integer(1));
                 layer.revalidate();
                 layer.repaint();
                 initialState=false;
             }
             else {
-
                 ghost.toggleGhostMovement();
-                p2.DisplayGeoMenu();
             }
           }      
         });
-//        JButton toggle = new JButton("toggle");
-//        toggle.setBounds(200, 50, 50, 50);
-//        
-//        toggleListener t = new toggleListener();
-//        toggle.addActionListener(t);
-//        layer.add(toggle, new Integer(4));
         
-        layer.add(gear, new Integer(4));
-        layer.add(p1, new Integer(3));
-        layer.add(ghost, new Integer(2));
-        
-        add(layer);
-
+        layer.add(gear, new Integer(5));
+        layer.add(ghost, new Integer(3));
+        layer.add(weather, new Integer(2));        
+        layer.add(map, new Integer(2));        
     }
+
+
+ 
     
-    private class toggleListener implements ActionListener
-    {
-        public void actionPerformed(ActionEvent e)
-        {
-            if(initialState==true){ 
-                layer.remove(p1);
-                gear.setVisible(true);
-                ghost.setVisible(true);
-                ghost.startGhostMovement();
-                layer.add(p2, new Integer(1));
-                layer.revalidate();
-                layer.repaint();
-                initialState=false;
-            }
-            else {
-                showGhost=!showGhost;// stop ghost every other time the listener is called
-                if(showGhost==false){ ghost.stopGhostMovement(); }
-                else { ghost.startGhostMovement(); } 
-                
-                p2.DisplayGeoMenu();
-            }
-        }
-    }   
     private void updateBounds(){
-        this.setSize(this.getWidth(),this.getHeight());
-        p1.setSize(this.getWidth(),this.getHeight());
-        layer.setBounds(0, 0, this.getWidth(), this.getHeight());
-        layer.revalidate();layer.repaint(); 
-//        map.updateBounds(this.getWidth(),this.getHeight());
-        ghost.updateBounds(this.getWidth(),this.getHeight());
-//        weather.updateBounds(this.getWidth(),this.getHeight());
-        this.revalidate();this.repaint();
-        super.validate();
+        
+        int w = this.getWidth();
+        int h = this.getHeight();
+        if(w<=0){w=500/3;}
+        if(h<=0){h=500/3;}
+        p1.setSize(w,h);
+        layer.setBounds(0, 0, w, h);
+        map.updateBounds(w,h);
+        ghost.updateBounds(w,h);
+        weather.updateBounds(w,h);
+        
     }
 
+    @Override
+    public void update(Observable o, Object x){
+        
+    }
+
+
+    
+       
 }

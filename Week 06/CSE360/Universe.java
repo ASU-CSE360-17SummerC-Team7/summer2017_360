@@ -1,3 +1,4 @@
+
 package CSE360;
 
 import java.awt.BorderLayout;
@@ -12,15 +13,15 @@ import javax.swing.JPanel;
 public class Universe extends JFrame implements ActionListener {
 
     ControlCenter cc = ControlCenter.getInstance(); 
-    Team0 t1 = new Team0();
-    Team0 t2 = new Team0();
-    Team0 t3 = new Team0();
-    Team0 t4 = new Team0();
-    Team0 t5 = new Team0();
-    Team0 t6 = new Team0();
-    Team0 t7 = new Team0();
-    Team0 t8 = new Team0();
-    Team0 t9 = new Team0();
+    Team7 t1 = new Team7();
+    Team7 t2 = new Team7();
+    Team7 t3 = new Team7();
+    Team7 t4 = new Team7();
+    Team7 t5 = new Team7();
+    Team7 t6 = new Team7();
+    Team7 t7 = new Team7();
+    Team7 t8 = new Team7();
+    Team7 t9 = new Team7();
     JButton b1 = new JButton("select a city");
     JButton b2 = new JButton("enable/disable ghost");
     

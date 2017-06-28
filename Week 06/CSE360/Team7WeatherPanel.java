@@ -65,8 +65,8 @@ public class Team7WeatherPanel extends JPanel
     }
     public void updateBounds(int xb,int yb){
         xbound=xb;ybound=yb;
-        this.setBounds(0,0,xbound,ybound);
-        this.revalidate();this.repaint();
+        this.setSize(xb,yb);
+        
     }
 }
 
