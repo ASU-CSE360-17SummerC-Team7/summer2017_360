@@ -130,15 +130,13 @@ public class Team7 extends JPanel implements Observer
             public void mouseClicked(MouseEvent e) {
                 if (showinfo) {
                 	layer.remove(map);
-                	layer.remove(weather);
                 	layer.add(p1, new Integer(0));
                 	showinfo = false;
                 }
                 else
                 {
                 	layer.remove(p1);
-                	layer.add(map, new Integer(1));
-                	layer.add(weather, new Integer(2));
+                	layer.add(map, new Integer(0));
                 	showinfo = true;
                 }
                 layer.revalidate();
@@ -172,7 +170,7 @@ public class Team7 extends JPanel implements Observer
         layer.setBounds(0, 0, xbound, ybound);
         map.updateBounds(xbound, ybound);
         ghost.updateBounds(xbound, ybound);
-        weather.updateBounds((int)(panelXDiv),(int)(7*panelYDiv),(int)(panelXDiv),(int)(panelYDiv));
+        weather.updateBounds((int)(panelXDiv),(int)(8*panelYDiv),xbound,ybound);
         info.updateBounds((int)(4*panelXDiv), (int)(7*panelYDiv),imgScale,imgScale);
         gear.updateBounds((int)(7*panelXDiv), (int)(7*panelYDiv),imgScale,imgScale);
         layer.revalidate();layer.repaint();
@@ -183,7 +181,7 @@ public class Team7 extends JPanel implements Observer
     	layer.remove(map);
     	layer.remove(weather);
     	map = new Team7GoogleMap(lat,lon,xbound,ybound);
-    	weather = new Team7WeatherPanel((double)lat,(double)lon,(int)(panelXDiv),(int)(7*panelYDiv),(int)(panelXDiv),(int)(panelYDiv));;
+    	weather = new Team7WeatherPanel((double)lat,(double)lon,(int)(panelXDiv),(int)(7*panelYDiv),xbound,ybound);
         layer.add(weather, new Integer(2));
         layer.add(map, new Integer(1));
         layer.revalidate();
