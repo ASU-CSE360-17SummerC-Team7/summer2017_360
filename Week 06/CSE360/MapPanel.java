@@ -80,11 +80,11 @@ public class MapPanel extends ComponentAdapter implements ActionListener{
             String imageUrl = "https://maps.googleapis.com/maps/api/staticmap?" 
                         +"center=" + latlong + "&zoom=9&size=250x125&scale=1&maptype=roadmap";
 
-            String destinationFile = "mapImage.jpg";
+            String destinationFile = "mapImage.jpg"; 
             String str = destinationFile;
             URL url = new URL(imageUrl);
             OutputStream os;
-            
+            System.out.println("File path to map: " + this.getClass().getResource("mapImage.jpg"));
             System.out.println("File path to gearImage.png  " + this.getClass().getResource("Team4Images/gearImage.png"));
             gearImage = ImageIO.read(this.getClass().getResource("Team4Images/gearImage.png"));
             System.out.println("File path to informationIcon.jpg  " + this.getClass().getResource("Team4Images/informationIcon.jpg"));
@@ -115,6 +115,7 @@ public class MapPanel extends ComponentAdapter implements ActionListener{
                 }
             }
             os.close();
+            buffMapImage = null;
             buffMapImage = ImageIO.read(new File(destinationFile));
         } 
         catch (IOException e) {

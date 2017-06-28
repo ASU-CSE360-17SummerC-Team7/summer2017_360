@@ -16,17 +16,17 @@
  	public void run() {
                 
  		int x = 0;
- 		int y = 70;
+ 		int y = 61;
  		int xpace = 3;
                 int ypace = 3;
  		int xpaceSpeed = xpace;
                 int ypaceSpeed = 0;
- 		int width = 218;
- 		int height = 223;
+ 		int width = 270;
+ 		int height = 150;
  		
  		while (exit != true) {
  			setBounds(x, y, width, height);
- 			if (x <= 0 && y > 75) {
+ 			if (x <= 0 && y > 60) {
                             
  				xpaceSpeed = xpace;
                                 ypaceSpeed = 0;
@@ -37,16 +37,16 @@
                                 ypaceSpeed = -ypace;
  			}
                         
-                        if( y < -85){
+                        if( y < -60){
                             
                             xpaceSpeed = -xpace;
                             ypaceSpeed = 0;
                             
                         }
-                        if (x < 1 && y <= -85) {
+                        if (x < 1 && y <= -60) {
  				xpaceSpeed = 0;
                                 ypaceSpeed = ypace;
-                                System.out.println("test");
+                                //System.out.println("test");
  			}
                         y += ypaceSpeed;
  			x += xpaceSpeed;

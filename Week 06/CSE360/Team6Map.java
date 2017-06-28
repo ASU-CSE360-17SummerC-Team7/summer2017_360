@@ -153,9 +153,7 @@ public class Team6Map  extends JPanel{
        return en;
     }
    
-   public JLabel getMAP(){
-       return mainMap;
-   }
+  
    
     public JLabel setMAP(){
        return mainMap;
@@ -181,16 +179,7 @@ public class Team6Map  extends JPanel{
       //static JLabel map = new JLabel();
         JLabel myImage = new JLabel(new ImageIcon("src/CSE360/Team6Images/pacman.png"));
         
-        JLayeredPane layeredPane = new JLayeredPane();
-        
-        
-        
-        
-        
-         panel = new JPanel();
-         panel.setBackground(Color.WHITE);
-         panel.setPreferredSize(new Dimension(300, 300));
-         panel.setVisible(true);
+
 
 
 
@@ -205,12 +194,12 @@ public class Team6Map  extends JPanel{
 				jon = readURL(cf);
 
 				String degree = "\u00b0";
-				Font myFont = new Font("Serif", Font.BOLD, 12);   
+				Font myFont = new Font("Serif", Font.BOLD, 100);   
 				weather = jon.getJSONObject("currently").getString("summary");
 				temperature = jon.getJSONObject("currently").getInt("temperature");
                                 
-                                 panel3.setPreferredSize(new Dimension(150, 150));
-                                 panel3.setVisible(true);
+                                 //panel3.setPreferredSize(new Dimension(150, 150));
+                                 //panel3.setVisible(true);
                                  
                                  
                               
@@ -224,67 +213,18 @@ public class Team6Map  extends JPanel{
 				label1.setText(" Weather: " + weather);
 				label2.setText("\n Temperature: " + Double.toString(temperature) + degree  + "F");
                         
-				String imageURL = "https://maps.googleapis.com/maps/api/staticmap?center=" + ct + "&zoom=12&size=250x250";
-				System.out.println(imageURL);
-				String destinationFile = "image.jpg";
-				URL url = new URL(imageURL);
-
-				java.io.InputStream in = url.openStream();
-				OutputStream out = new FileOutputStream(destinationFile);
-
-				byte b[] = new byte[2048];
-				int lenght;
-
-				while((lenght = in.read(b)) != -1){
-					out.write(b,0,lenght); //change
-				}
-				URL urlmap = new URL(imageURL);
-				BufferedImage img = ImageIO.read(urlmap);
-				ImageIcon icon = new ImageIcon(img);
-                                
-                                in.close();
-                                out.close();
-                                map.setIcon(icon); 
-                                
-                                //= new JLabel( new ImageIcon(( new ImageIcon(img)).getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH)));
-
-				//map.setIcon(icon);
-                                
-                                thread.start();
+				
                                 
 				//panel3.add(map);
                                 
-                                layeredPane.setPreferredSize(new Dimension(250,250));
+                                //layeredPane.setPreferredSize(new Dimension(250,250));
                                 //panel3.add(layeredPane, BorderLayout.CENTER);
 
 
-                                map.setSize(layeredPane.getPreferredSize());
+                                //map.setSize(layeredPane.getPreferredSize());
                                 
                               
-                                map.setBounds(0, 0, 250, 250);
                                 
-                                
-                                layeredPane.add(map, new Integer(0));
-                                
-
-
-                                layeredPane.add(myImage, new Integer(1));
-                                layeredPane.add(ghost, new Integer(2));
-
-                                //panel3.setBounds(0,0,250,250);
-
-                                //layeredPane.setBounds(0,0,100,100);
-                                //layeredPane.setOpaque(false);
-                               
-				//panel2.add(label1);
-				//panel2.add(label2);
-				
-
-				//add(layeredPane, BorderLayout.CENTER);
-
-				//add(panel2);
-
-				setVisible(true);
                         
                       
                         } catch (IOException ex) {
@@ -299,5 +239,8 @@ public class Team6Map  extends JPanel{
                  //add(panel2);
 
         }
+     public int getTemp(){
+       return temperature;
+   }
     
 }

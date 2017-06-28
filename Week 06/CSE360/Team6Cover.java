@@ -35,7 +35,7 @@ public class Team6Cover  extends JPanel{
   
     Team6Cover(){
          
-        setPreferredSize(new Dimension(160,160));
+        setPreferredSize(new Dimension(300,150));
         setBackground(Color.WHITE);
         add(joel);
         add(Manny);
