@@ -170,7 +170,7 @@ public class Team7 extends JPanel implements Observer
         layer.setBounds(0, 0, xbound, ybound);
         map.updateBounds(xbound, ybound);
         ghost.updateBounds(xbound, ybound);
-        weather.updateBounds((int)(panelXDiv),(int)(8*panelYDiv),xbound,ybound);
+        weather.updateBounds((int)(panelXDiv),(int)(7*panelYDiv),xbound,ybound);
         info.updateBounds((int)(4*panelXDiv), (int)(7*panelYDiv),imgScale,imgScale);
         gear.updateBounds((int)(7*panelXDiv), (int)(7*panelYDiv),imgScale,imgScale);
         layer.revalidate();layer.repaint();
