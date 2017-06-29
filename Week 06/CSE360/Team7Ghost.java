@@ -177,23 +177,26 @@ class Team7Ghost extends JPanel implements Runnable
     // private helper function: startGhostMovement
     // manages starting the ghost thread to ensure that the thread operates correctly
     private void startGhostMovement() {
-        currentlyVisible=true;
-        animation.setLocation(xg,yg); 
-        
-        setVisible(true);
-        gt = new Thread(this);
-        gt.start();
-        
+    	if(gt == null) { 
+	        animation.setLocation(xg,yg); 
+	        
+	        setVisible(true);
+	        gt = new Thread(this);
+	        gt.start();
+    	}
+        currentlyVisible=true;        
     }
     // private helper function: stopGhostMovement
     // manages stopping the ghost thread to ensure that the thread operates correctly
     private void stopGhostMovement() {
+    	if(gt != null) { 
+	        setVisible(false);
+	        gt.interrupt();
+	        while(gt.isInterrupted()==true){} // wait until thread has completely been interrupted
+	        gt=null; System.gc(); // then delete thread and clean upS
+	        //System.out.println("End of Ghost Movement\n");
+    	}
         currentlyVisible=false;
-        setVisible(false);
-        gt.interrupt();
-        while(gt.isInterrupted()==true){} // wait until thread has completely been interrupted
-        gt=null; System.gc(); // then delete thread and clean upS
-        //System.out.println("End of Ghost Movement\n");
     }
 
     @Override
