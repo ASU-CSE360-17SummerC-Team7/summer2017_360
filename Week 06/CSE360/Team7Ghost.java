@@ -67,12 +67,22 @@ class Team7Ghost extends JPanel implements Runnable
         setVisible(false);
     }
 
+    // method: updateBounds
+    // abstracted method to help with dynamic resizing of panel
     public void updateBounds(int xb,int yb){ 
         xbound=xb;ybound=yb;
         this.setBounds(0,0,ghostScale,ghostScale);   
         this.setSize(xbound,ybound);
         this.setVisible(false);
 
+	// ghost panel's origin (0,0) is in center of frame, so xmin = -xbound/2, xmax = xbound/2
+	//  AND ymin = -ybound/2, ymax = ybound/2
+	// if current x coordinate (xg) is outside of resized area 
+	//    (xbound => xmin<=xg+viewable_image_size<=xmax)
+	// then set next x coordinate to limit: xmin or xmax, respective to the boundary overrun
+	// if current y coordinate (yg) is outside of resized area 
+	//    (ybound => ymin<=yg+viewable_image_size<=ymax)
+	// then set next y coordinate to limit: ymin or ymax, respective to the boundary overrun
         this.updateGhostCoordinates(
                 (xg>(xbound/2)-animation.getIcon().getIconHeight()/3)?xbound/2-animation.getIcon().getIconHeight()/3
                         :((xg<-(xbound/2)+animation.getIcon().getIconHeight()/3)?-(xbound/2)+animation.getIcon().getIconHeight()/3
@@ -101,6 +111,8 @@ class Team7Ghost extends JPanel implements Runnable
                 break;
         }
     }
+    // method: moveGhost
+    // simple helper method that corresponds current direction with next ghost movement
     public boolean moveGhost() {
         switch(dir) { 
             case "up": 
@@ -115,6 +127,10 @@ class Team7Ghost extends JPanel implements Runnable
                 return moveGhostRight();
         }
     }
+    // -------------------------------------------------------------------------------
+    // methods: moveGhostRight, moveGhostLeft, moveGhostUp, moveGhostDown
+    // simple helper methods that checks boundary conditions 
+    // and if valid, moves ghost in a specific direction
     public boolean moveGhostRight() {
         if((xg+step+animation.getIcon().getIconWidth()/3)<= xbound/2){ updateGhostCoordinates(xg+step,yg); return true;}
         else return false;
@@ -131,6 +147,9 @@ class Team7Ghost extends JPanel implements Runnable
         if((yg+step+animation.getIcon().getIconHeight()/3)<=(ybound/2)){ updateGhostCoordinates(xg,yg+step); return true;}
         else return false;
     }
+    // -------------------------------------------------------------------------------
+    // method: updateGhostAnimation
+    // simple helper method that helps to rescale and redraw image with new location
     public void updateGhostAnimation() throws IOException{
        // animation.setIcon(new ImageIcon(ImageIO.read(new File(getFullIconPath()))));
        animation.setIcon(new ImageIcon((new ImageIcon(getFullIconPath()).getImage().getScaledInstance(ghostScale, ghostScale,
@@ -139,6 +158,8 @@ class Team7Ghost extends JPanel implements Runnable
     }
     public String getFullIconPath(){ return iconPath+dir+".png";}
 
+    // method: updateGhostCoordinates
+    // simple helper method that sets class variables and updates location
     public void updateGhostCoordinates(int x,int y) {
         xg=x;yg=y;
         setLocation(xg,yg);

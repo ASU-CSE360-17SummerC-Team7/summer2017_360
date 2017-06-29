@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 /**
  *
  * @author pdreiter
+ * @modified Updated to be reused for gear or info icon [chen]
+ * @modified further updated to abstract more (moved placement into xoffset/yoffset instead of relying on string name) [pemma]
  */
 public class Team7OverlayObject extends JLabel{
     private String iconPath;
