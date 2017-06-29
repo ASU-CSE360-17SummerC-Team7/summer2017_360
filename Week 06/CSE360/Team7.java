@@ -96,7 +96,7 @@ public class Team7 extends JPanel implements Observer
         gear.setPreferredSize(new Dimension(xbound, ybound));
         ghost = new Team7Ghost(xbound, ybound, imagePath);
         showGhost=true;
-        showinfo=false;
+        showinfo=true;
         weather.setFont(new Font("Courier",Font.TRUETYPE_FONT,10));
         weather.setVisible(true);
         gear.setVisible(true);
@@ -135,7 +135,9 @@ public class Team7 extends JPanel implements Observer
                 }
                 else
                 {
-                	layer.remove(p1);
+                	// only remove a layer if we are not right after initialization
+                	// if the startup screen is the map
+                	layer.remove(p1); 
                 	layer.add(map, new Integer(0));
                 	showinfo = true;
                 }
@@ -161,6 +163,7 @@ public class Team7 extends JPanel implements Observer
         
         int w = this.getWidth();
         int h = this.getHeight();
+        // default width for initialization
         if(w<=0){w=500/3;}
         if(h<=0){h=500/3;}
         xbound=w;ybound=h;
