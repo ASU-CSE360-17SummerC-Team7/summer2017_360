@@ -143,9 +143,9 @@ public class Team7 extends JPanel implements Observer
                 layer.repaint();
             }
         }); 
-        layer.add(p1, new Integer(0));
+        //layer.add(p1, new Integer(0));
 // no need to add map initially, we are dynamically adding and removing it with the listeners
-//        layer.add(map, new Integer(0));
+        layer.add(map, new Integer(0));
         layer.add(gear, new Integer(2));
         layer.add(info, new Integer(2));
         layer.add(ghost, new Integer(1));
