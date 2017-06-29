@@ -43,10 +43,14 @@ public class Team7WeatherInfo {
     public String getTimezone() { 
         return darksky.getString("timezone");
     }
+    // method: isValid_TimeType
+    // make sure that only "currently" string is a valid JSONObject lookup for darksky
     private boolean isValid_TimeType(String timeType){ 
         if (timeType.matches("currently")) { return true; }
         else { return false; }
     }
+    // method: isValid_WeatherInfoKey
+    // make sure that the valid "currently" hash entries are used as JSONObject lookup for darksky
     private boolean isValid_WeatherInfoKey(String wkey){ 
         if(     wkey.matches("time")|| 
                 wkey.matches("summary")|| 
@@ -69,6 +73,8 @@ public class Team7WeatherInfo {
             ) { return true; }
         else { return false; }
     }
+    // method: isWeatherInfoKey_String
+    // darksky json only has two keys that return strings, helper function to identify them
     private boolean isWeatherInfoKey_String(String wkey){ 
         if(
                 wkey.matches("summary")|| 
@@ -76,6 +82,8 @@ public class Team7WeatherInfo {
             ) { return true; }
         else { return false; }
     }
+    // method: getWeatherFieldString
+    // abstraction method to lookup / error check darksky json hash
     public String getWeatherFieldString(String timeType, String wkey){
         if ( !isValid_TimeType(timeType) ) { return "ERROR: Invalid timeType (valid: currently) (deprecated: minutely, hourly, daily)"; }
         else if ( !isValid_WeatherInfoKey(wkey)) {  return "ERROR: Invalid weather key";  }
@@ -89,6 +97,8 @@ public class Team7WeatherInfo {
         }
     }
     
+    // method: updateDarkSKYJSONObject
+    // method to abstract JSONObject retrieval
     private void updateDarkSKYJSONObject() { 
         String ourAPIKey = "fc32de3a545df155ae6e26a367e4259f";
         String excludeBlocks="?exclude=minutely,hourly,daily,alerts,flags";

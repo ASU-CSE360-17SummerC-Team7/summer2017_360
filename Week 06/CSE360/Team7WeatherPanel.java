@@ -27,20 +27,22 @@ public class Team7WeatherPanel extends JPanel
         //System.out.println("xsize: "+Integer.toString(xsize)+ " xbound: "+Integer.toString(xb)+ " xoffset: "+Integer.toString(xoffset)+" String: "+temp.getText());
         this.setSize(xbound,ybound);
         temp.setBounds(xoffset,yoffset,xbound,ybound);
-	    temp.setSize(xbound,ybound);
-        //temp.setHorizontalAlignment(JLabel.LEFT);
-        //add(temp,BorderLayout.SOUTH);
-	    add(temp,BorderLayout.SOUTH);
+	temp.setSize(xbound,ybound);
+	add(temp,BorderLayout.SOUTH);
         setOpaque(false);
         setVisible(true);
     }
 
+    // method: updateWeatherPanel
+    // independently updates weather information with new latitude,longitude
     public void updateWeatherPanel(double latitude,double longitude) { 
         geoLocation.UpdateGeoLocation(latitude, longitude);
         temp.setText(geoLocation.getWeatherFieldString("currently", "temperature")+"\u00b0");
         temp.setFont(new Font(temp.getFont().getName(),temp.getFont().getStyle(),xsize/2));
         //System.out.println("Updated temperature: "+geoLocation.getWeatherFieldString("currently", "temperature")+"\u00b0"+"F");
     }
+    // method: updateBounds
+    // helper function to abstract gui resizing issues
     public void updateBounds(int xoffset, int yoffset, int xb,int yb){
         xbound=xb;ybound=yb;xsize=xbound-xoffset; ysize=ybound-yoffset;
         this.setSize(xbound,ybound); temp.setSize(xbound,ybound);
